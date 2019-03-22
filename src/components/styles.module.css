@@ -1,0 +1,138 @@
+:global body {
+  font-family: 'Martel', serif;
+  font-weight: 400;
+  transition: background .4s, color .4s;
+}
+
+:global(body.default-theme *::selection) {
+  background: #ffe0c7;
+}
+
+:global(article p) {
+  font-size: 11pt;
+  line-height: 27px;
+  margin-bottom: 17px;
+  color: #333;
+  transition: color .4s;
+}
+
+:global(article a) {
+  color: #fa7b16;
+  transition: color .4s;
+}
+
+:global(article h1), :global(article h2) {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
+  font-size: 20pt;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+:global(article h3) {
+  font-weight: 800;
+  font-size: 16pt;
+  margin-top: 28px;
+  margin-bottom: 16px;
+  line-height: 31px;
+}
+
+:global(article strong) {
+  font-weight: 800;
+}
+
+:global(article ul) {
+  margin: 10px 0 0 22px;
+  list-style: outside;
+  list-style-type: disc;
+}
+
+:global(article li) {
+  margin-bottom: 13px;
+  font-size: 11pt;
+}
+
+.page {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 80px 20px 50px 20px;
+}
+
+.title {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700;
+  font-size: 30pt;
+  letter-spacing: initial;
+}
+
+.para {
+  margin-top: 20px;
+  color: #aaa;
+}
+
+.divider {
+  width: 30px;
+  margin: 30px auto;
+  border-bottom: 5px solid #fa7b16;
+  transition: all .4s;
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  color: #aaa;
+  cursor: pointer;
+  transition: all .9s;
+}
+
+.icon-button:hover {
+  color: #000;
+  transition: all .4s;
+}
+
+.icon-button:active {
+  opacity: 0.6;
+}
+
+.footer>p {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 11pt;
+  text-align: center;
+  color: #d8d8d8;
+  margin-top: 40px;
+  transition-duration: .5s;
+}
+
+.other-links {
+  margin: 40px 0;
+  padding: 20px 18px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  transition: border .4s;
+}
+
+.other-links .links {
+  display: inline-block;
+}
+
+.other-links .links:not(:last-child)::after {
+  content: "/";
+  margin: 0 6px;
+  color: #cecece;
+  transition: color .4s;
+}
+
+.other-links p {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
+  font-size: 12pt;
+  margin-bottom: 14px;
+}
+
+.other-links a {
+  color: #fa7b16;
+  transition: color .4s;
+}

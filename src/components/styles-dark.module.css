@@ -1,0 +1,98 @@
+:global body.dark-theme {
+  background: #252525;
+  color: #fff;
+}
+
+:global(body.dark-theme article a) {
+  color: #9cddfe;
+  transition: color .4s;
+}
+
+:global(body.dark-theme article p) {
+  color: #f0f0f0;
+}
+
+.page {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 80px 20px 50px 20px;
+}
+
+.title {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700;
+  font-size: 30pt;
+  letter-spacing: initial;
+}
+
+.para {
+  margin-top: 20px;
+  color: #c8c8c8;
+}
+
+.divider {
+  width: 30px;
+  margin: 30px auto;
+  border-bottom: 5px solid #426e92;
+  transition: all .4s;
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  color: #aaa;
+  cursor: pointer;
+  transition: all .9s;
+}
+
+.icon-button:hover {
+  color: #fff;
+  transition: all .4s;
+}
+
+.icon-button:active {
+  opacity: 0.6;
+}
+
+.footer>p {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 11pt;
+  text-align: center;
+  color: #464646;
+  margin-top: 40px;
+  transition-duration: .5s;
+}
+
+.other-links {
+  margin: 40px 0;
+  padding: 20px 18px;
+  border: 1px solid #3c3c3c;
+  border-radius: 6px;
+  transition: border .4s;
+}
+
+.other-links .links {
+  display: inline-block;
+}
+
+.other-links .links:not(:last-child)::after {
+  content: "/";
+  margin: 0 6px;
+  color: #6f6f6f;
+  transition: color .4s;
+}
+
+.other-links p {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
+  font-size: 12pt;
+  margin-bottom: 14px;
+}
+
+.other-links a {
+  color: #9cddfe;
+  transition: color .4s;
+}

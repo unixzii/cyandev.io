@@ -1,7 +1,7 @@
 {
-  "name": "gatsby-starter-hello-world",
+  "name": "cyandev.io",
   "private": true,
-  "description": "A simplified bare-bones starter for Gatsby",
+  "description": "A personal website for Cyandev",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "gatsby": "^2.2.3",
+    "gatsby-source-filesystem": "^2.0.27",
+    "gatsby-transformer-remark": "^2.3.8",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
@@ -22,9 +24,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-hello-world"
+    "url": "https://github.com/unixzii/cyandev.io"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/unixzii/cyandev.io/issues"
   }
 }
