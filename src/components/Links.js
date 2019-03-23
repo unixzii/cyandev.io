@@ -10,7 +10,7 @@ export default React.memo(function Links(props) {
 
   return (
     <div className={currentStyle.otherLinks}>
-      <p>{useI18N('otherLinks')}</p>
+      <p>{useI18N('otherLinks') /* TODO: don't inline hooks in JSX */}</p>
       {
         props.links.map(link => (
           <div key={link.slug} className={currentStyle.links}>

@@ -37,6 +37,14 @@
   line-height: 31px;
 }
 
+:global(article code) {
+  word-break: break-all;
+  line-height: 20pt;
+  font-family: monospace;
+  color: #7b7b7b;
+  margin: 0 6px;
+}
+
 :global(article strong) {
   font-weight: 800;
 }
@@ -48,7 +56,8 @@
 }
 
 :global(article li) {
-  margin-bottom: 13px;
+  line-height: 22px;
+  margin-bottom: 10px;
   font-size: 11pt;
 }
 

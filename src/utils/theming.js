@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
 import { setPref, getPref } from './globalPrefs';
+import { useClientEnv } from './ssr';
 
 import * as defaultStyle from '../components/styles.module.css';
 import * as darkStyle from '../components/styles-dark.module.css';
@@ -19,6 +20,7 @@ function resolveStyle(name) {
 const ctx = createContext({});
 
 export function ThemeScope(props) {
+  const isClient = useClientEnv();
   const [currentStyle, setCurrentStyle] = useState(resolveStyle(getPref('uiStyle')));
 
   useEffect(() => {
@@ -36,7 +38,11 @@ export function ThemeScope(props) {
   }
 
   return (
-    <ctx.Provider value={{ currentStyle, setCurrentStyle: _setCurrentStyle }}>
+    <ctx.Provider
+      value={{
+        currentStyle: isClient ? currentStyle : defaultStyle,
+        setCurrentStyle: _setCurrentStyle
+      }}>
       {props.children}
     </ctx.Provider>
   );

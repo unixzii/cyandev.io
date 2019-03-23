@@ -11,13 +11,11 @@ export default function HTML(props) {
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"
         />
-        {props.headComponents}
         <link href="https://unpkg.com/reset-css@4.0.1/reset.css" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Martel:400,800|Ubuntu:500,700" rel="stylesheet" />
-        <link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossOrigin="anonymous" />
-        <link href="/common.css" rel="stylesheet" />
+        <link id="linkInsertAnchor" href="/common.css" rel="stylesheet" />
+        {props.headComponents}
       </head>
-      <body {...props.bodyAttributes}>
+      <body style={{ display: 'none' }} {...props.bodyAttributes}>
         {props.preBodyComponents}
         <noscript key="noscript" id="gatsby-noscript">
           This app works best with JavaScript enabled.
@@ -27,6 +25,35 @@ export default function HTML(props) {
           id="___gatsby"
           dangerouslySetInnerHTML={{ __html: props.body }}
         />
+        <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function () {
+              function unhideContents() {
+                document.body.style.display = '';
+              }
+
+              const linkAnchor = document.head.querySelector('link');
+
+              function loadCSS(href) {
+                const anchor = document.querySelector('#linkInsertAnchor');
+                const el = document.createElement('link');
+                el.rel = 'stylesheet';
+                el.href = href;
+                document.head.insertBefore(el, anchor);
+              }
+
+              loadCSS('https://fonts.googleapis.com/css?family=Martel:400,800|Ubuntu:500,700');
+              loadCSS('https://use.fontawesome.com/releases/v5.8.0/css/all.css');
+
+              const timerId = setTimeout(unhideContents, 1000);
+              document.addEventListener('DOMContentLoaded', function () {
+                clearTimeout(timerId);
+                unhideContents();
+              });
+            })();
+          `
+        }} />
         {props.postBodyComponents}
       </body>
     </html>

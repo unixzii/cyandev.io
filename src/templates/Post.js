@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { graphql } from 'gatsby';
 
 import { withPage } from '../components/Page';
@@ -15,16 +15,25 @@ import { useTheme } from '../utils/theming';
 function Post(props) {
   const data = props.data;
 
+  const { currentLang } = useI18N();
+  const { currentStyle } = useTheme();
+
+  const title = data[currentLang].frontmatter.title;
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
   return (
     <>
       <div style={{ position: 'relative', paddingRight: '40px' }}>
-        <Title text={data[useI18N().currentLang].frontmatter.title} />
-        <Paragraph>{data[useI18N().currentLang].frontmatter.subtitle}</Paragraph>
+        <Title text={title} />
+        <Paragraph>{data[currentLang].frontmatter.subtitle}</Paragraph>
         <Settings />
       </div>
-      <div className={useTheme().currentStyle.divider} />
+      <div className={currentStyle.divider} />
       <div style={{ marginTop: '20px' }}>
-        <article dangerouslySetInnerHTML={{ __html: data[useI18N().currentLang].html }} />
+        <article dangerouslySetInnerHTML={{ __html: data[currentLang].html }} />
       </div>
       <Links links={props.links} />
       <Footer />

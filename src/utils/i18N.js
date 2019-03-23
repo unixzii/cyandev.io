@@ -1,10 +1,12 @@
 import React, { createContext, useState, useContext } from 'react';
 
 import { setPref, getPref } from './globalPrefs';
+import { useClientEnv } from './ssr';
 
 const ctx = createContext({});
 
 export function I18NScope(props) {
+  const isClient = useClientEnv();
   const [currentLang, setCurrentLang] = useState(getPref('lang') || 'en');
 
   function _setCurrentLang(lang) {
@@ -15,7 +17,7 @@ export function I18NScope(props) {
   return (
     <ctx.Provider
       value={{
-        currentLang,
+        currentLang: isClient ? currentLang : 'en',
         setCurrentLang: _setCurrentLang,
         stringMap: props.stringMap }}>
       {props.children}

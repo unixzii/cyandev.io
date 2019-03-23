@@ -70,6 +70,7 @@ export default React.memo(function Settings() {
           pointerEvents: collapsed ? 'all' : 'none'
         }}>
         <IconButton
+          label="Open Settings Panel"
           iconName="cog"
           onClick={onExpandOrCollapse} 
           extraStyle={{
@@ -89,6 +90,7 @@ export default React.memo(function Settings() {
           pointerEvents: collapsed ? 'none' : 'all'
         }}>
         <IconButton
+          label="Switch Language"
           iconName={currentLang === 'en' ? 'globe-asia' : 'globe-americas'}
           onClick={onChangeLanguage}
           extraStyle={{
@@ -96,6 +98,7 @@ export default React.memo(function Settings() {
             transition: collapsed ? 'all .2s' : 'all .5s'
           }} />
         <IconButton
+          label="Switch Dark Mode"
           iconName={currentStyle.$$name === 'default' ? 'moon' : 'sun'}
           onClick={onChangeTheme}
           extraStyle={{

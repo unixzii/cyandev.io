@@ -1,12 +1,21 @@
 const prefs = {};
 
-try {
-  Object.assign(prefs, JSON.parse(localStorage.getItem('app:prefs')));
-} catch {
-  console.error('App prefs back store is corrupted, resetting...');
-  localStorage.setItem('app:prefs', '{}');
-}
+const localStorage = (function () {
+  if (typeof window === 'undefined') {
+    return {
+      setItem() {},
+      getItem() { return null; }
+    };
+  }
 
+  try {
+    Object.assign(prefs, JSON.parse(window.localStorage.getItem('app:prefs')));
+  } catch {
+    // don't need to do anything, just eat the error.
+  }
+
+  return window.localStorage;
+})();
 
 let serializationScheduled = false;
 
