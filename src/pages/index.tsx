@@ -1,24 +1,35 @@
 // import Image from "next/image";
-import Head from "next/head";
+import { GetStaticProps } from "next";
 import { Inter } from "next/font/google";
+import Typewriter from "@/components/typewriter";
+import me from "@/data/me.json";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+type HomeProps = {
+  descriptiveStatements: string[];
+};
+
+export default function Home({ descriptiveStatements }: HomeProps) {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <Head>
-        <title>Cyandev</title>
-      </Head>
-      <div className={`${inter.className} text-4xl font-bold`}>
+      <div
+        className={`${inter.className} mb-2 md:mb-8 text-4xl md:text-6xl font-bold`}
+      >
         👋&nbsp;&nbsp;Hi, I&apos;m Cyandev
       </div>
-      <div className={`${inter.className} text-base opacity-40`}>
-        This site is under construction.
-      </div>
+      <Typewriter snippets={descriptiveStatements} />
     </main>
   );
 }
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  return {
+    props: {
+      descriptiveStatements: me.descriptive_statements,
+    },
+  };
+};
 
 // export default function Home() {
 //   return (
