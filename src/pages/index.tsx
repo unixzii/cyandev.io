@@ -1,24 +1,99 @@
 // import Image from "next/image";
+import { Fragment, useMemo } from "react";
 import { GetStaticProps } from "next";
 import { Inter } from "next/font/google";
 import Typewriter from "@/components/typewriter";
+import { RevealHighlightPlatter } from "@/components/reveal-highlight";
+import Button from "@/components/button";
+import Menu, { MenuButton } from "@/components/menu";
+import Icon from "@/components/icon";
+
+// For server-side rendering.
 import me from "@/data/me.json";
 
 const inter = Inter({ subsets: ["latin"] });
 
-type HomeProps = {
-  descriptiveStatements: string[];
+type MyLink = {
+  title: string;
+  icon?: string;
+  url: string;
 };
 
-export default function Home({ descriptiveStatements }: HomeProps) {
+function makeLinkOpener(url: string): () => void {
+  return () => {
+    window.open(url, "_blank");
+  };
+}
+
+function Links(props: { links: MyLink[] }) {
+  const { links } = props;
+  const [inlineLinks, overflowLinks] = useMemo(() => {
+    if (links.length <= 3) {
+      return [links, []];
+    }
+    return [links.slice(0, 3), links.slice(3)];
+  }, [links]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4">
+    <RevealHighlightPlatter innerClassName="flex pt-24 gap-1">
+      {inlineLinks.map((link) => (
+        <Button
+          key={link.url}
+          extraClassName="!py-2"
+          title={link.title}
+          aria-label={link.title}
+          onClick={makeLinkOpener(link.url)}
+        >
+          <Icon icon={link.icon as unknown as any} size="lg" />
+        </Button>
+      ))}
+      {inlineLinks.length !== links.length && (
+        <Menu
+          button={
+            <MenuButton
+              as={Button}
+              extraClassName="py-2"
+              title="More"
+              aria-label="More"
+            >
+              <Icon icon="ellipsis" size="lg" />
+            </MenuButton>
+          }
+          items={overflowLinks}
+          itemRenderer={(link) => {
+            return [
+              (active) => (
+                <Button
+                  manuallyActive={active}
+                  onClick={makeLinkOpener(link.url)}
+                >
+                  {link.title}
+                </Button>
+              ),
+              link.url,
+            ];
+          }}
+        />
+      )}
+    </RevealHighlightPlatter>
+  );
+}
+
+type HomeProps = {
+  descriptiveStatements: string[];
+  links: MyLink[];
+};
+
+export default function Home({ descriptiveStatements, links }: HomeProps) {
+  return (
+    <main className="flex px-4 py-16 min-h-screen flex-col items-center justify-center gap-4">
       <div
         className={`${inter.className} mb-2 md:mb-8 text-4xl md:text-6xl font-bold`}
       >
         👋&nbsp;&nbsp;Hi, I&apos;m Cyandev
       </div>
       <Typewriter snippets={descriptiveStatements} />
+      <Links links={links} />
     </main>
   );
 }
@@ -27,6 +102,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   return {
     props: {
       descriptiveStatements: me.descriptive_statements,
+      links: me.links,
     },
   };
 };

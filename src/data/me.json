@@ -1,11 +1,37 @@
 {
   "descriptive_statements": [
     "An initiate of programming.",
+    "An open-source contributor.",
     "An Apple platform developer.",
     "A web developer.",
     "A Rustacean.",
     "A lifelong learner.",
     "A console gamer.",
     "A person who don't believe in fate."
+  ],
+  "links": [
+    {
+      "title": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/unixzii"
+    },
+    {
+      "title": "Twitter",
+      "icon": "twitter",
+      "url": "https://twitter.com/unixzii"
+    },
+    {
+      "title": "Instagram",
+      "icon": "instagram",
+      "url": "https://www.instagram.com/unixzii"
+    },
+    { "title": "Blog", "url": "https://unixzii.github.io" },
+    {
+      "title": "YouTube",
+      "url": "https://www.youtube.com/channel/UCLr5iLa3ivr7kISqAdlGZjA"
+    },
+    { "title": "Telegram", "url": "https://t.me/cyandev" },
+    { "title": "知乎", "url": "https://www.zhihu.com/people/cyandev" },
+    { "title": "微博", "url": "https://weibo.com/u/2834711045" }
   ]
 }
