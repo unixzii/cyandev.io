@@ -12,8 +12,7 @@ type RevealHighlightPlatterAction =
   | { enter: HTMLElement }
   | { leave: HTMLElement }
   | { down: HTMLElement }
-  | { up: true }
-  | { reset: true };
+  | { up: true };
 
 function revealHighlightPlatterReducer(
   prevState: RevealHighlightPlatterState,
@@ -31,8 +30,6 @@ function revealHighlightPlatterReducer(
     }
   } else if ("up" in action) {
     return { ...prevState, mouseDown: false };
-  } else if ("reset" in action) {
-    return { hoveredElement: null, mouseDown: false };
   } else {
     throw new Error(
       "Unexpected action with keys:\n" +
@@ -61,9 +58,9 @@ export default function RevealHighlightPlatter(
     mouseDown: false,
   });
 
-  const setActiveElement = useCallback(
-    (el: HTMLElement | null) => {
-      dispatch(el ? { enter: el } : { reset: true });
+  const setElementActive = useCallback(
+    (el: HTMLElement, active: boolean) => {
+      dispatch(active ? { enter: el } : { leave: el });
     },
     [dispatch]
   );
@@ -102,7 +99,7 @@ export default function RevealHighlightPlatter(
   );
 
   const context = useOpaqueRef({
-    setActiveElement,
+    setElementActive,
     handleElementEnter,
     handleElementLeave,
     handleElementDown,

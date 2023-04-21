@@ -1,8 +1,8 @@
-import { MouseEventHandler, useContext, useEffect, createContext } from "react";
+import { MouseEventHandler, useContext, createContext } from "react";
 import { MethodKeys } from "@/utils/types";
 
 export interface IRevealHighlightPlatterContext {
-  setActiveElement: (el: HTMLElement | null) => void;
+  setElementActive: (el: HTMLElement, active: boolean) => void;
   handleElementEnter: MouseEventHandler;
   handleElementLeave: MouseEventHandler;
   handleElementDown: MouseEventHandler;
@@ -35,10 +35,13 @@ function wrapContextFn<T, K extends MethodKeys<T>>(
 }
 
 export type UseRevealHighlight = {
-  onMouseLeave: React.MouseEventHandler;
-  onMouseEnter: React.MouseEventHandler;
-  onMouseDown: React.MouseEventHandler;
-  onMouseUp: React.MouseEventHandler;
+  setElementActive: (el: HTMLElement, active: boolean) => void;
+  targetProps: {
+    onMouseLeave: React.MouseEventHandler;
+    onMouseEnter: React.MouseEventHandler;
+    onMouseDown: React.MouseEventHandler;
+    onMouseUp: React.MouseEventHandler;
+  };
 };
 
 export function useRevealHighlight(
@@ -46,23 +49,19 @@ export function useRevealHighlight(
 ): UseRevealHighlight {
   const context = useContext(RevealHighlightPlatterContext);
 
+  const setElementActive = wrapContextFn(context, "setElementActive");
   const onMouseEnter = wrapContextFn(context, "handleElementEnter");
   const onMouseLeave = wrapContextFn(context, "handleElementLeave");
   const onMouseDown = wrapContextFn(context, "handleElementDown");
   const onMouseUp = wrapContextFn(context, "handleElementUp");
 
-  useEffect(() => {
-    if (activeElement === undefined) {
-      return;
-    }
-
-    context?.setActiveElement(activeElement);
-  }, [context, activeElement]);
-
   return {
-    onMouseEnter,
-    onMouseLeave,
-    onMouseDown,
-    onMouseUp,
+    setElementActive,
+    targetProps: {
+      onMouseEnter,
+      onMouseLeave,
+      onMouseDown,
+      onMouseUp,
+    },
   };
 }
