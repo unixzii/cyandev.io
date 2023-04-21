@@ -8,6 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "reveal-highlight": "#fff",
         caret: "#1ccdff",
       },
       animation: {
