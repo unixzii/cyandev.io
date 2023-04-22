@@ -41,7 +41,7 @@ export default function DefaultRevealHighlight(
     }
   }, [animationEnabledRef, springApi, width, height, top, left, visible]);
 
-  const opacityTransitionDuration = pressed ? 0.1 : 0.2;
+  const opacityTransitionDuration = pressed ? 0.1 : visible ? 0.2 : 0.4;
   useEffect(() => {
     if (visible) {
       return undefined;

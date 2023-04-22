@@ -1,11 +1,16 @@
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import useOpaqueRef from "@/utils/useOpaqueRef";
-import { RevealHighlightPlatterContextProvider } from "./context";
+import {
+  RevealHighlightPlatterContextProvider,
+  ElementState,
+  ELEMENT_STATE_ENTERED,
+  ELEMENT_STATE_DOWN,
+} from "./context";
 import DefaultRevealHighlight from "./DefaultRevealHighlight";
 
 type RevealHighlightPlatterState = {
   hoveredElement: HTMLElement | null;
-  mouseDown: boolean;
+  pressedElement: HTMLElement | null;
 };
 
 type RevealHighlightPlatterAction =
@@ -19,17 +24,15 @@ function revealHighlightPlatterReducer(
   action: RevealHighlightPlatterAction
 ): RevealHighlightPlatterState {
   if ("enter" in action) {
-    return { hoveredElement: action.enter, mouseDown: false };
+    return { ...prevState, hoveredElement: action.enter };
   } else if ("leave" in action) {
     if (prevState.hoveredElement === action.leave) {
-      return { hoveredElement: null, mouseDown: false };
+      return { ...prevState, hoveredElement: null };
     }
   } else if ("down" in action) {
-    if (prevState.hoveredElement === action.down) {
-      return { ...prevState, mouseDown: true };
-    }
+    return { hoveredElement: action.down, pressedElement: action.down };
   } else if ("up" in action) {
-    return { ...prevState, mouseDown: false };
+    return { ...prevState, pressedElement: null };
   } else {
     throw new Error(
       "Unexpected action with keys:\n" +
@@ -55,58 +58,38 @@ export default function RevealHighlightPlatter(
 
   const [state, dispatch] = useReducer(revealHighlightPlatterReducer, {
     hoveredElement: null,
-    mouseDown: false,
+    pressedElement: null,
   });
 
-  const setElementActive = useCallback(
-    (el: HTMLElement, active: boolean) => {
-      dispatch(active ? { enter: el } : { leave: el });
-    },
-    [dispatch]
-  );
-  const handleElementEnter = useCallback(
-    (ev: React.MouseEvent) => {
-      const enter = ev.currentTarget;
-      if (enter instanceof HTMLElement) {
-        dispatch({ enter });
+  const setElementState = useCallback(
+    (el: HTMLElement, state: ElementState) => {
+      if (state & ELEMENT_STATE_ENTERED) {
+        dispatch({ enter: el });
+      }
+      if (state & ELEMENT_STATE_DOWN) {
+        dispatch({ down: el });
       }
     },
     [dispatch]
   );
-  const handleElementLeave = useCallback(
-    (ev: React.MouseEvent) => {
-      const leave = ev.currentTarget;
-      if (leave instanceof HTMLElement) {
-        dispatch({ leave });
+  const clearElementState = useCallback(
+    (el: HTMLElement, state: ElementState) => {
+      if (state & ELEMENT_STATE_ENTERED) {
+        dispatch({ leave: el });
       }
-    },
-    [dispatch]
-  );
-  const handleElementDown = useCallback(
-    (ev: React.MouseEvent) => {
-      const down = ev.currentTarget;
-      if (down instanceof HTMLElement) {
-        dispatch({ down });
+      if (state & ELEMENT_STATE_DOWN) {
+        dispatch({ up: true });
       }
-    },
-    [dispatch]
-  );
-  const handleElementUp = useCallback(
-    (_ev: React.MouseEvent) => {
-      dispatch({ up: true });
     },
     [dispatch]
   );
 
   const context = useOpaqueRef({
-    setElementActive,
-    handleElementEnter,
-    handleElementLeave,
-    handleElementDown,
-    handleElementUp,
+    setElementState,
+    clearElementState,
   });
 
-  const { hoveredElement, mouseDown } = state;
+  const { hoveredElement, pressedElement } = state;
 
   return (
     <RevealHighlightPlatterContextProvider value={context.current}>
@@ -117,7 +100,7 @@ export default function RevealHighlightPlatter(
           top={hoveredElement?.offsetTop || 0}
           left={hoveredElement?.offsetLeft || 0}
           visible={!!hoveredElement}
-          pressed={mouseDown}
+          pressed={!!pressedElement && hoveredElement === pressedElement}
         />
         <div className={`relative ${innerClassName || ""}`} style={innerStyle}>
           {children}

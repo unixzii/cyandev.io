@@ -63,10 +63,7 @@ function Links(props: { links: MyLink[] }) {
           itemRenderer={(link) => {
             return [
               (active) => (
-                <Button
-                  manuallyActive={active}
-                  onClick={makeLinkOpener(link.url)}
-                >
+                <Button active={active} onClick={makeLinkOpener(link.url)}>
                   {link.title}
                 </Button>
               ),

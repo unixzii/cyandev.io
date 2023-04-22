@@ -1,19 +1,30 @@
-import { MouseEventHandler, useContext, createContext } from "react";
+import {
+  PropsWithChildren,
+  MouseEventHandler,
+  MouseEvent,
+  SyntheticEvent,
+  useCallback,
+  useContext,
+  createContext,
+} from "react";
 import { MethodKeys } from "@/utils/types";
 
+export type ElementState = number;
+export const ELEMENT_STATE_ENTERED: ElementState = 1;
+export const ELEMENT_STATE_DOWN: ElementState = 1 << 1;
+export const ELEMENT_STATE_ALL: ElementState =
+  ELEMENT_STATE_ENTERED | ELEMENT_STATE_DOWN;
+
 export interface IRevealHighlightPlatterContext {
-  setElementActive: (el: HTMLElement, active: boolean) => void;
-  handleElementEnter: MouseEventHandler;
-  handleElementLeave: MouseEventHandler;
-  handleElementDown: MouseEventHandler;
-  handleElementUp: MouseEventHandler;
+  setElementState: (el: HTMLElement, state: ElementState) => void;
+  clearElementState: (el: HTMLElement, state: ElementState) => void;
 }
 
 const RevealHighlightPlatterContext =
   createContext<IRevealHighlightPlatterContext | null>(null);
 
 export function RevealHighlightPlatterContextProvider(
-  props: React.PropsWithChildren<{ value: IRevealHighlightPlatterContext }>
+  props: PropsWithChildren<{ value: IRevealHighlightPlatterContext }>
 ) {
   const { value, children } = props;
   return (
@@ -34,29 +45,69 @@ function wrapContextFn<T, K extends MethodKeys<T>>(
   return noop as any;
 }
 
+function withHTMLEventTarget<R>(
+  ev: SyntheticEvent,
+  action: (el: HTMLElement) => R
+): R | null {
+  const target = ev.currentTarget;
+  if (target instanceof HTMLElement) {
+    return action(target);
+  }
+  return null;
+}
+
 export type UseRevealHighlight = {
-  setElementActive: (el: HTMLElement, active: boolean) => void;
+  setElementState: (el: HTMLElement, state: ElementState) => void;
+  clearElementState: (el: HTMLElement, state: ElementState) => void;
   targetProps: {
-    onMouseLeave: React.MouseEventHandler;
-    onMouseEnter: React.MouseEventHandler;
-    onMouseDown: React.MouseEventHandler;
-    onMouseUp: React.MouseEventHandler;
+    onMouseLeave: MouseEventHandler;
+    onMouseEnter: MouseEventHandler;
+    onMouseDown: MouseEventHandler;
+    onMouseUp: MouseEventHandler;
   };
 };
 
-export function useRevealHighlight(
-  activeElement?: HTMLElement | null
-): UseRevealHighlight {
+export function useRevealHighlight(): UseRevealHighlight {
   const context = useContext(RevealHighlightPlatterContext);
 
-  const setElementActive = wrapContextFn(context, "setElementActive");
-  const onMouseEnter = wrapContextFn(context, "handleElementEnter");
-  const onMouseLeave = wrapContextFn(context, "handleElementLeave");
-  const onMouseDown = wrapContextFn(context, "handleElementDown");
-  const onMouseUp = wrapContextFn(context, "handleElementUp");
+  const setElementState = wrapContextFn(context, "setElementState");
+  const clearElementState = wrapContextFn(context, "clearElementState");
+  const onMouseEnter = useCallback(
+    (ev: MouseEvent) => {
+      withHTMLEventTarget(ev, (el) => {
+        context?.setElementState(el, ELEMENT_STATE_ENTERED);
+      });
+    },
+    [context]
+  );
+  const onMouseLeave = useCallback(
+    (ev: MouseEvent) => {
+      withHTMLEventTarget(ev, (el) => {
+        context?.clearElementState(el, ELEMENT_STATE_ALL);
+      });
+    },
+    [context]
+  );
+  const onMouseDown = useCallback(
+    (ev: MouseEvent) => {
+      withHTMLEventTarget(ev, (el) => {
+        context?.setElementState(el, ELEMENT_STATE_DOWN);
+      });
+    },
+    [context]
+  );
+  const onMouseUp = useCallback(
+    (ev: MouseEvent) => {
+      withHTMLEventTarget(ev, (el) => {
+        context?.clearElementState(el, ELEMENT_STATE_DOWN);
+      });
+    },
+    [context]
+  );
 
   return {
-    setElementActive,
+    setElementState,
+    clearElementState,
     targetProps: {
       onMouseEnter,
       onMouseLeave,
