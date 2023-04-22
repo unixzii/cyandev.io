@@ -98,7 +98,7 @@ const Home: FunctionComponent<HomeProps> = ({
   links,
 }) => {
   return (
-    <main className="flex px-4 py-16 min-h-screen flex-col items-center justify-center gap-4">
+    <main className="flex px-4 py-16 min-h-apple-compat-screen flex-col items-center justify-center gap-4">
       <div
         className={`${inter.className} mt-12 md:mt-24 mb-2 md:mb-8 text-4xl md:text-6xl font-bold`}
       >

@@ -7,7 +7,7 @@ import Icon from "@/components/icon";
 const NotFound: FunctionComponent = () => {
   const router = useRouter();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main className="flex min-h-apple-compat-screen flex-col items-center justify-center">
       <div className="relative">
         <div className="mt-12 md:mt-24 text-4xl md:text-6xl font-bold">
           <span className="text-foreground/10">Oops, it&apos;s 404</span>
