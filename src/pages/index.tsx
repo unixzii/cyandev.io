@@ -100,7 +100,7 @@ const Home: FunctionComponent<HomeProps> = ({
   return (
     <main className="flex px-4 py-16 min-h-screen flex-col items-center justify-center gap-4">
       <div
-        className={`${inter.className} mt-2 md:mt-8 mb-2 md:mb-8 text-4xl md:text-6xl font-bold`}
+        className={`${inter.className} mt-12 md:mt-24 mb-2 md:mb-8 text-4xl md:text-6xl font-bold`}
       >
         👋&nbsp;&nbsp;Hi, I&apos;m Cyandev
       </div>
