@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { FunctionComponent, useState, useMemo } from "react";
 import { GetStaticProps } from "next";
 import { Inter } from "next/font/google";
 import Typewriter from "@/components/typewriter";
@@ -93,7 +93,10 @@ type HomeProps = {
   links: MyLink[];
 };
 
-export default function Home({ descriptiveStatements, links }: HomeProps) {
+const Home: FunctionComponent<HomeProps> = ({
+  descriptiveStatements,
+  links,
+}) => {
   return (
     <main className="flex px-4 py-16 min-h-screen flex-col items-center justify-center gap-4">
       <div
@@ -105,7 +108,14 @@ export default function Home({ descriptiveStatements, links }: HomeProps) {
       <Links links={links} />
     </main>
   );
-}
+};
+export default Home;
+
+Home.staticMetadata = {
+  ogUrl: "https://cyandev.me",
+  ogImage: "https://cyandev.me/twitter-cards/common.png",
+  ogDescription: "👋 Hi, I'm Cyandev.",
+};
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   return {
