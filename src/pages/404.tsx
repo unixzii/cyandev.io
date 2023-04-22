@@ -1,9 +1,11 @@
 import { FunctionComponent } from "react";
+import { useRouter } from "next/router";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
 import Button from "@/components/button";
 import Icon from "@/components/icon";
 
 const NotFound: FunctionComponent = () => {
+  const router = useRouter();
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <div className="relative">
@@ -32,7 +34,7 @@ const NotFound: FunctionComponent = () => {
             extraClassName="!py-2"
             title="Home"
             aria-label="Home"
-            onClick={() => (location.href = "/")}
+            onClick={() => router.push("/")}
           >
             <Icon icon="house" className="text-base" />
           </Button>
