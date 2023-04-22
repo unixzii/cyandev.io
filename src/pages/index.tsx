@@ -114,7 +114,7 @@ export default Home;
 Home.staticMetadata = {
   ogUrl: "https://cyandev.app",
   ogImage: "https://cyandev.app/twitter-cards/common.png",
-  ogDescription: "👋 Hi, I'm Cyandev.",
+  ogDescription: "👋 Hi, I'm Cyandev. This is my personal homepage, welcome.",
 };
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {

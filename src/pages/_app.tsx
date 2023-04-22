@@ -22,7 +22,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="og:title" content={title} />
         {ogUrl && <meta property="og:url" content={ogUrl} />}
         {ogImage && <meta property="og:image" content={ogImage} />}
-        {ogImage && <meta name="twitter:card" content="summary_large_image" />}
+        {ogImage && <meta property="twitter:image" content={ogImage} />}
+        {(ogImage || ogDescription) && (
+          <meta name="twitter:card" content="summary_large_image" />
+        )}
         {ogDescription && (
           <meta property="og:description" content={ogDescription} />
         )}
