@@ -18,7 +18,7 @@ const NotFound: FunctionComponent = () => {
         </div>
       </div>
       <div className="pt-16 md:px-24 md:py-16 md:opacity-60 md:hover:opacity-100 md:transition-opacity md:duration-500">
-        <RevealHighlightPlatter innerClassName="flex items-center">
+        <RevealHighlightPlatter innerClassName="flex items-center animate-glitch-blink-passive">
           <Button
             extraClassName="!py-2"
             title="Back"
@@ -30,8 +30,8 @@ const NotFound: FunctionComponent = () => {
           <div className="inline-block w-0.5 h-3 mx-2 bg-border" />
           <Button
             extraClassName="!py-2"
-            title="Back"
-            aria-label="Back"
+            title="Home"
+            aria-label="Home"
             onClick={() => (location.href = "/")}
           >
             <Icon icon="house" className="text-base" />
