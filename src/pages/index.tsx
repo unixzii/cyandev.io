@@ -112,8 +112,8 @@ const Home: FunctionComponent<HomeProps> = ({
 export default Home;
 
 Home.staticMetadata = {
-  ogUrl: "https://cyandev.me",
-  ogImage: "https://cyandev.me/twitter-cards/common.png",
+  ogUrl: "https://cyandev.app",
+  ogImage: "https://cyandev.app/twitter-cards/common.png",
   ogDescription: "👋 Hi, I'm Cyandev.",
 };
 
