@@ -1,5 +1,6 @@
-import { Fragment, ReactElement } from "react";
+import { Fragment, ReactElement, useEffect } from "react";
 import { Menu as HeadlessMenu, Transition } from "@headlessui/react";
+import useOpaqueRef from "@/utils/useOpaqueRef";
 import { RevealHighlightPlatter } from "./reveal-highlight";
 
 export const MenuButton = HeadlessMenu.Button;
@@ -8,7 +9,25 @@ export type MenuProps<T> = {
   button: ReactElement;
   items: T[];
   itemRenderer: (item: T) => [(active: boolean) => ReactElement, string];
+  onOpen?: () => void;
+  onClose?: () => void;
 };
+
+function _MenuOpenStateListener(
+  props: Pick<MenuProps<any>, "onOpen" | "onClose">
+) {
+  const { onOpen, onClose } = props;
+  const onOpenRef = useOpaqueRef(onOpen);
+  const onCloseRef = useOpaqueRef(onClose);
+  useEffect(() => {
+    onOpenRef.current?.call(null);
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      onCloseRef.current?.call(null);
+    };
+  }, [onOpenRef, onCloseRef]);
+  return <></>;
+}
 
 export default function Menu<T>(props: MenuProps<T>) {
   return (
@@ -24,6 +43,10 @@ export default function Menu<T>(props: MenuProps<T>) {
         leaveTo="transform opacity-0 scale-75"
       >
         <HeadlessMenu.Items className="absolute bottom-12 right-0 w-40 px-1.5 py-1.5 origin-bottom-right rounded-xl backdrop-blur bg-background/60 border border-border shadow-lg ring-0 outline-none select-none">
+          <_MenuOpenStateListener
+            onOpen={props.onOpen}
+            onClose={props.onClose}
+          />
           <RevealHighlightPlatter>
             {props.items.map((item) => {
               const [childFn, key] = props.itemRenderer(item);
