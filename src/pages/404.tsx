@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
 import { useRouter } from "next/router";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
-import Button from "@/components/button";
-import Icon from "@/components/icon";
+import { Button } from "@/components/button";
+import { Icon } from "@/components/icon";
 
 const NotFound: FunctionComponent = () => {
   const router = useRouter();
