@@ -18,12 +18,6 @@ type MyLink = {
   url: string;
 };
 
-function makeLinkOpener(url: string): () => void {
-  return () => {
-    window.open(url, "_blank");
-  };
-}
-
 function Links(props: { links: MyLink[] }) {
   const { links } = props;
   const [inlineLinks, overflowLinks] = useMemo(() => {
@@ -44,10 +38,12 @@ function Links(props: { links: MyLink[] }) {
         {inlineLinks.map((link) => (
           <Button
             key={link.url}
+            elementType="a"
             extraClassName="!py-2"
             title={link.title}
             aria-label={link.title}
-            onClick={makeLinkOpener(link.url)}
+            href={link.url}
+            target="_blank"
           >
             <Icon icon={link.icon as unknown as any} size="lg" />
           </Button>
@@ -56,19 +52,29 @@ function Links(props: { links: MyLink[] }) {
           <Menu
             button={
               <MenuButton
-                as={Button}
-                extraClassName="py-2"
+                as={
+                  /* HACK: indirect generics not working here */
+                  Button as any
+                }
+                extraClassName="!py-2"
                 title="More"
                 aria-label="More"
               >
                 <Icon icon="ellipsis" size="lg" />
               </MenuButton>
             }
+            menuContainerClassName="flex flex-col"
             items={overflowLinks}
             itemRenderer={(link) => {
               return [
                 (active) => (
-                  <Button active={active} onClick={makeLinkOpener(link.url)}>
+                  <Button
+                    elementType="a"
+                    active={active}
+                    aria-label={link.title}
+                    href={link.url}
+                    target="_blank"
+                  >
                     {link.title}
                   </Button>
                 ),

@@ -7,6 +7,7 @@ export const MenuButton = HeadlessMenu.Button;
 
 export type MenuProps<T> = {
   button: ReactElement;
+  menuContainerClassName?: string;
   items: T[];
   itemRenderer: (item: T) => [(active: boolean) => ReactElement, string];
   onOpen?: () => void;
@@ -47,7 +48,7 @@ export default function Menu<T>(props: MenuProps<T>) {
             onOpen={props.onOpen}
             onClose={props.onClose}
           />
-          <RevealHighlightPlatter>
+          <RevealHighlightPlatter innerClassName={props.menuContainerClassName}>
             {props.items.map((item) => {
               const [childFn, key] = props.itemRenderer(item);
               return (
