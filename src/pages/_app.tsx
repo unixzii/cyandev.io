@@ -44,7 +44,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>{title}</title>
         <meta property="msapplication-TileColor" content="#000000" />
         <meta property="theme-color" content="#000" />
+        <meta property="twitter:site" content="@unixzii" />
         <meta property="og:title" content={title} />
+        <meta property="twitter:title" content={title} />
         {ogUrl && <meta property="og:url" content={ogUrl} />}
         {ogImage && <meta property="og:image" content={ogImage} />}
         {ogImage && <meta property="twitter:image" content={ogImage} />}
@@ -53,6 +55,9 @@ export default function App({ Component, pageProps }: AppProps) {
         )}
         {ogDescription && (
           <meta property="og:description" content={ogDescription} />
+        )}
+        {ogDescription && (
+          <meta property="twitter:description" content={ogDescription} />
         )}
         {ogDescription && (
           <meta property="description" content={ogDescription} />
