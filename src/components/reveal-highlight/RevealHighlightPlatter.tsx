@@ -1,5 +1,4 @@
-import { useCallback, useReducer } from "react";
-import { useOpaqueRef } from "@/utils";
+import { useCallback, useMemo, useReducer } from "react";
 import {
   RevealHighlightPlatterContextProvider,
   ElementState,
@@ -90,15 +89,18 @@ export function RevealHighlightPlatter(
     [dispatch]
   );
 
-  const context = useOpaqueRef({
-    setElementState,
-    clearElementState,
-  });
+  const context = useMemo(
+    () => ({
+      setElementState,
+      clearElementState,
+    }),
+    [setElementState, clearElementState]
+  );
 
   const { hoveredElement, pressedElement } = state;
 
   return (
-    <RevealHighlightPlatterContextProvider value={context.current}>
+    <RevealHighlightPlatterContextProvider value={context}>
       <div className={className} style={{ ...style, position: "relative" }}>
         <DefaultRevealHighlight
           width={hoveredElement?.clientWidth || 0}

@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   createContext,
+  memo,
 } from "react";
 import { MethodKeys } from "@/utils/types";
 
@@ -23,16 +24,17 @@ export interface IRevealHighlightPlatterContext {
 const RevealHighlightPlatterContext =
   createContext<IRevealHighlightPlatterContext | null>(null);
 
-export function RevealHighlightPlatterContextProvider(
-  props: PropsWithChildren<{ value: IRevealHighlightPlatterContext }>
-) {
-  const { value, children } = props;
+export const RevealHighlightPlatterContextProvider = memo<
+  PropsWithChildren<{
+    value: IRevealHighlightPlatterContext;
+  }>
+>(function RevealHighlightPlatterContextProvider({ value, children }) {
   return (
     <RevealHighlightPlatterContext.Provider value={value}>
       {children}
     </RevealHighlightPlatterContext.Provider>
   );
-}
+});
 
 function noop() {}
 function wrapContextFn<T, K extends MethodKeys<T>>(
