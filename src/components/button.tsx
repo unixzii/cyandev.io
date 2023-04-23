@@ -54,6 +54,7 @@ export const Button = forwardRef(function Button<T extends HTMLTag>(
         active ? "!opacity-100" : "hover:opacity-100"
       } ${extraClassName || ""}`,
       role: "button",
+      tabIndex: 0,
       ...targetProps,
       ...props,
     },

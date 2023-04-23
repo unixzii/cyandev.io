@@ -41,6 +41,10 @@ class TypewriterTransitionState {
     return this._current;
   }
 
+  get target(): string {
+    return this._target;
+  }
+
   get stage(): TypewriterTransitionStage {
     return this._stage;
   }
@@ -80,7 +84,12 @@ function rangedRandom(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function useTypewriter(snippets: string[]): [string, boolean] {
+type UseTypewriter = {
+  currentString: string;
+  targetString: string;
+  idle: boolean;
+};
+function useTypewriter(snippets: string[]): UseTypewriter {
   const snippetsRef = useRef(snippets);
   const indexRef = useRef(0);
   const transitionRef = useRef<TypewriterTransitionState | null>(null);
@@ -127,7 +136,11 @@ function useTypewriter(snippets: string[]): [string, boolean] {
     }
   }, [snippetsRef, indexRef, tick]);
 
-  return [transitionRef.current?.current || snippets[indexRef.current], idle];
+  return {
+    currentString: transition?.current || snippets[indexRef.current],
+    targetString: transition?.target || snippets[indexRef.current],
+    idle,
+  };
 }
 
 export type TypewriterProps = {
@@ -135,10 +148,23 @@ export type TypewriterProps = {
 };
 
 export function Typewriter({ snippets }: TypewriterProps) {
-  const [content, idle] = useTypewriter(snippets);
+  const {
+    currentString: content,
+    targetString: description,
+    idle,
+  } = useTypewriter(snippets);
   return (
     <div className="text-sm md:text-lg">
-      {content}
+      <div
+        className="absolute w-0 h-0 overflow-hidden"
+        role="marquee"
+        aria-label="a description with typewriter effect"
+      >
+        {description}
+      </div>
+      <div className="inline" aria-hidden="true">
+        {content}
+      </div>
       <div
         className={`inline-block w-1 ml-0.5 bg-caret text-transparent rounded-sm select-none ${
           idle ? "animate-smooth-blink" : ""
