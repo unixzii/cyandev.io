@@ -24,7 +24,13 @@ function revealHighlightPlatterReducer(
   action: RevealHighlightPlatterAction
 ): RevealHighlightPlatterState {
   if ("enter" in action) {
-    return { ...prevState, hoveredElement: action.enter };
+    const { enter: hoveredElement } = action;
+    const { pressedElement: oldPressedElement } = prevState;
+    let pressedElement = oldPressedElement;
+    if (hoveredElement && hoveredElement !== oldPressedElement) {
+      pressedElement = null;
+    }
+    return { hoveredElement, pressedElement };
   } else if ("leave" in action) {
     if (prevState.hoveredElement === action.leave) {
       return { ...prevState, hoveredElement: null };
