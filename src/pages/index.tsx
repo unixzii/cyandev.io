@@ -1,11 +1,11 @@
 import { FunctionComponent, useState, useMemo } from "react";
 import { GetStaticProps } from "next";
 import { Inter } from "next/font/google";
-import Typewriter from "@/components/typewriter";
+import { Typewriter } from "@/components/typewriter";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
-import Button from "@/components/button";
-import Menu, { MenuButton } from "@/components/menu";
-import Icon from "@/components/icon";
+import { Button } from "@/components/button";
+import { Menu, MenuButton } from "@/components/menu";
+import { Icon } from "@/components/icon";
 
 // For server-side rendering.
 import me from "@/data/me.json";

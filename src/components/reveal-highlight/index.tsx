@@ -1,5 +1,5 @@
 export type { RevealHighlightPlatterProps } from "./RevealHighlightPlatter";
-export { default as RevealHighlightPlatter } from "./RevealHighlightPlatter";
+export { RevealHighlightPlatter } from "./RevealHighlightPlatter";
 
 export {
   useRevealHighlight,

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useTick } from "@/utils/useTick";
+import { useTick } from "@/utils";
 
 enum TypewriterTransitionStage {
   Deleting = 0,
@@ -134,7 +134,7 @@ export type TypewriterProps = {
   snippets: string[];
 };
 
-export default function Typewriter({ snippets }: TypewriterProps) {
+export function Typewriter({ snippets }: TypewriterProps) {
   const [content, idle] = useTypewriter(snippets);
   return (
     <div className="text-sm md:text-lg">

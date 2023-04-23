@@ -10,9 +10,7 @@ type DefaultRevealHighlightProps = {
   pressed: boolean;
 };
 
-export default function DefaultRevealHighlight(
-  props: DefaultRevealHighlightProps
-) {
+export function DefaultRevealHighlight(props: DefaultRevealHighlightProps) {
   const { width, height, top, left, visible, pressed } = props;
   const memorizedProps = useRef({
     width,

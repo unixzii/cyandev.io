@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useTick(ms: number, initialTick?: number): number {
+export default function useTick(ms: number, initialTick?: number): number {
   const [tick, setTick] = useState(initialTick || 0);
 
   useEffect(() => {

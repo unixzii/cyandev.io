@@ -1,12 +1,12 @@
 import { useCallback, useReducer } from "react";
-import useOpaqueRef from "@/utils/useOpaqueRef";
+import { useOpaqueRef } from "@/utils";
 import {
   RevealHighlightPlatterContextProvider,
   ElementState,
   ELEMENT_STATE_ENTERED,
   ELEMENT_STATE_DOWN,
 } from "./context";
-import DefaultRevealHighlight from "./DefaultRevealHighlight";
+import { DefaultRevealHighlight } from "./DefaultRevealHighlight";
 
 type RevealHighlightPlatterState = {
   hoveredElement: HTMLElement | null;
@@ -51,7 +51,7 @@ export type RevealHighlightPlatterProps = {
   innerStyle?: React.CSSProperties;
 };
 
-export default function RevealHighlightPlatter(
+export function RevealHighlightPlatter(
   props: React.PropsWithChildren<RevealHighlightPlatterProps>
 ) {
   const { className, style, innerClassName, innerStyle, children } = props;

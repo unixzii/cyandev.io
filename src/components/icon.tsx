@@ -28,7 +28,7 @@ export type IconProps = {
   style?: CSSProperties;
 };
 
-export default function Icon(props: IconProps) {
+export function Icon(props: IconProps) {
   return (
     <FontAwesomeIcon
       className={props.className}

@@ -1,6 +1,6 @@
 import { Fragment, ReactElement, useEffect } from "react";
 import { Menu as HeadlessMenu, Transition } from "@headlessui/react";
-import useOpaqueRef from "@/utils/useOpaqueRef";
+import { useOpaqueRef } from "@/utils";
 import { RevealHighlightPlatter } from "./reveal-highlight";
 
 export const MenuButton = HeadlessMenu.Button;
@@ -30,7 +30,7 @@ function _MenuOpenStateListener(
   return <></>;
 }
 
-export default function Menu<T>(props: MenuProps<T>) {
+export function Menu<T>(props: MenuProps<T>) {
   return (
     <HeadlessMenu as={Fragment}>
       {props.button}

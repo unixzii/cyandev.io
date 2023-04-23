@@ -1,16 +1,10 @@
-import {
-  ElementType,
-  ForwardedRef,
-  PropsWithChildren,
-  forwardRef,
-  createElement,
-} from "react";
-import useRefWithHandler from "@/utils/useRefWithHandler";
-import { UIComponentProps } from "@/utils/types";
+import { ForwardedRef, PropsWithChildren, forwardRef } from "react";
+import { useRefWithHandler, renderHtmlElement } from "@/utils";
+import { HTMLTag, HTMLWrapperComponentProps } from "@/utils/types";
 import { useRevealHighlight, ELEMENT_STATE_ENTERED } from "./reveal-highlight";
 
-export type ButtonProps<E extends ElementType> = UIComponentProps<
-  E,
+export type ButtonProps<Tag extends HTMLTag> = HTMLWrapperComponentProps<
+  Tag,
   {
     // TBD.
     extraClassName?: string;
@@ -19,11 +13,11 @@ export type ButtonProps<E extends ElementType> = UIComponentProps<
 >;
 
 export interface ButtonComponent {
-  <E extends ElementType = "div">(props: ButtonProps<E>): JSX.Element;
+  <Tag extends HTMLTag = "div">(props: ButtonProps<Tag>): JSX.Element;
 }
 
-const Button = forwardRef(function Button<E extends ElementType>(
-  props: PropsWithChildren<ButtonProps<E>>,
+export const Button = forwardRef(function Button<T extends HTMLTag>(
+  props: PropsWithChildren<ButtonProps<T>>,
   ref: ForwardedRef<HTMLDivElement>
 ) {
   const { elementType, extraClassName, children, active } = props;
@@ -49,15 +43,10 @@ const Button = forwardRef(function Button<E extends ElementType>(
     delete targetProps["onMouseLeave"];
   }
 
-  // Extract inner props.
-  const innerProps = Object.assign({}, props);
-  delete innerProps["extraClassName"];
-  delete innerProps["active"];
-  delete innerProps["elementType"];
-
   const baseClassName =
     "px-3 py-1.5 font-medium opacity-60 cursor-pointer transition-opacity duration-200";
-  const element = createElement(
+
+  return renderHtmlElement(
     elementType || "div",
     {
       ref: innerRef,
@@ -66,11 +55,9 @@ const Button = forwardRef(function Button<E extends ElementType>(
       } ${extraClassName || ""}`,
       role: "button",
       ...targetProps,
-      ...innerProps,
+      ...props,
     },
+    ["extraClassName", "active", "elementType"],
     children
   );
-
-  return element;
 }) as ButtonComponent;
-export default Button;
