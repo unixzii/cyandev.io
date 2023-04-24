@@ -4,6 +4,7 @@ declare namespace global {
     ogUrl?: string;
     ogImage?: string;
     ogDescription?: string;
+    hidesNavBar?: boolean;
   };
 }
 
