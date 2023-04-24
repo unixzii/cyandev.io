@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import ReactMarkdown from "react-markdown";
 import remarkFrontmatter from "remark-frontmatter";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { ReadableArea } from "@/components/adaptive-containers";
 import { PostItem, formatTimestampToHumanReadableDate } from "./";
 
@@ -32,6 +33,24 @@ const BlogPost: FC<BlogPostProps> = ({
           <ReactMarkdown
             className="markdown-reader pt-6 md:pt-12 pb-6"
             remarkPlugins={[remarkFrontmatter]}
+            components={{
+              code({ inline, className, children, ...props }) {
+                const match = /language-(\w+)/.exec(className || "");
+                return !inline && match ? (
+                  <SyntaxHighlighter
+                    language={match[1]}
+                    style={{}}
+                    PreTag={Fragment}
+                  >
+                    {String(children).replace(/\n$/, "")}
+                  </SyntaxHighlighter>
+                ) : (
+                  <code {...props} className={className}>
+                    {children}
+                  </code>
+                );
+              },
+            }}
           >
             {rawContents}
           </ReactMarkdown>
