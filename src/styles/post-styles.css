@@ -1,0 +1,79 @@
+/* Global styles */
+.markdown-reader {
+    @apply leading-relaxed text-foreground/80 text-lg font-light;
+}
+
+/* Reset text color for emphasized items */
+.markdown-reader h1, .markdown-reader h2, .markdown-reader h3, .markdown-reader strong, .markdown-reader pre {
+    @apply text-foreground;
+}
+
+/* Heading styles */
+.markdown-reader h1 {
+    @apply text-3xl font-medium mt-12 mb-4;
+}
+
+.markdown-reader h2 {
+    @apply text-2xl font-medium mt-8 mb-2;
+}
+
+.markdown-reader h3 {
+    @apply text-xl font-medium mt-4 mb-1;
+}
+
+/* Paragraph styles */
+.markdown-reader p {
+    @apply my-4;
+}
+
+/* Link styles */
+.markdown-reader a {
+    @apply text-blue-600;
+}
+
+.markdown-reader a:hover {
+    @apply underline;
+}
+
+/* Inline code styles */
+.markdown-reader code {
+    @apply px-1 text-foreground/90 bg-foreground/10 border border-border rounded-md;
+}
+
+/* Bold text styles */
+.markdown-reader strong {
+    @apply font-medium;
+}
+
+/* List styles */
+.markdown-reader ul {
+    list-style: unset;
+    padding-inline-start: 20px;
+}
+
+.markdown-reader ol {
+    list-style: unset;
+    list-style-type: decimal;
+    padding-inline-start: 30px;
+}
+
+/* Block styles */
+.markdown-reader blockquote, .markdown-reader pre {
+    @apply my-4 px-4 py-2 border border-border rounded-lg;
+}
+
+.markdown-reader blockquote p {
+    @apply my-0 text-foreground-secondary;
+}
+
+.markdown-reader blockquote>p:first-child strong {
+    @apply text-foreground;
+}
+
+.markdown-reader pre {
+    @apply text-sm font-mono leading-relaxed overflow-scroll;
+}
+
+.markdown-reader pre code {
+    @apply bg-transparent border-none;
+}

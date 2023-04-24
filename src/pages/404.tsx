@@ -47,4 +47,5 @@ export default NotFound;
 
 NotFound.staticMetadata = {
   title: "404 Not Found",
+  hidesNavBar: true,
 };

@@ -28,6 +28,8 @@ module.exports = {
       colors: {
         background: "#000",
         foreground: "#fff",
+        "foreground-secondary": "#888",
+        "foreground-tertiary": "#666",
         border: "rgba(255, 255, 255, 0.15)",
         "reveal-highlight": "#fff",
         caret: "#1ccdff",
