@@ -77,3 +77,40 @@
 .markdown-reader pre code {
     @apply bg-transparent border-none;
 }
+
+/* Syntax highlighting theme */
+.markdown-reader code .comment {
+    @apply text-foreground/40;
+}
+
+.markdown-reader code .keyword {
+    @apply text-pink-400;
+}
+
+.markdown-reader code .string {
+    @apply text-green-400;
+}
+
+.markdown-reader code .number {
+    @apply text-blue-400;
+}
+
+.markdown-reader code .tag {
+    @apply text-blue-400;
+}
+
+.markdown-reader code .tag.attr-name {
+    @apply text-orange-400;
+}
+
+.markdown-reader code .tag.attr-value {
+    @apply text-green-400;
+}
+
+.markdown-reader code .tag.punctuation {
+    @apply text-blue-300;
+}
+
+.markdown-reader code .tag.attr-value.tag.punctuation {
+    @apply text-green-400;
+}

@@ -28,6 +28,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.7",
+    "react-syntax-highlighter": "^15.5.0",
     "remark-frontmatter": "^4.0.1",
     "remark-parse": "^10.0.1",
     "remark-stringify": "^10.0.2",
@@ -37,6 +38,7 @@
     "yaml": "^2.2.2"
   },
   "devDependencies": {
+    "@types/react-syntax-highlighter": "^15.5.6",
     "@typescript-eslint/eslint-plugin": "^5.59.0"
   }
 }
