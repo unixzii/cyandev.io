@@ -9,10 +9,12 @@ declare namespace global {
 }
 
 declare namespace React {
-  interface FunctionComponent<M = global.PageMetadata> {
-    staticMetadata?: M;
+  interface FunctionComponent<P = {}> {
+    staticMetadata?: PageMetadata;
+    getDynamicMetadata?: (props: P) => PageMetadata;
   }
-  interface ComponentClass<M = global.PageMetadata> {
-    staticMetadata?: M;
+  interface ComponentClass<P = {}> {
+    staticMetadata?: PageMetadata;
+    getDynamicMetadata?: (props: P) => PageMetadata;
   }
 }
