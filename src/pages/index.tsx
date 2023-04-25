@@ -1,6 +1,5 @@
 import { FunctionComponent, useState, useMemo } from "react";
 import { GetStaticProps } from "next";
-import { Inter } from "next/font/google";
 import { Typewriter } from "@/components/typewriter";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
 import { Button } from "@/components/button";
@@ -9,8 +8,6 @@ import { Icon } from "@/components/icon";
 
 // For server-side rendering.
 import me from "@/data/me.json";
-
-const inter = Inter({ subsets: ["latin"] });
 
 type MyLink = {
   title: string;
@@ -105,9 +102,7 @@ const Home: FunctionComponent<HomeProps> = ({
 }) => {
   return (
     <main className="flex px-4 py-16 min-h-apple-compat-screen flex-col items-center justify-center gap-4">
-      <div
-        className={`${inter.className} mt-12 md:mt-24 mb-2 md:mb-8 text-4xl md:text-6xl font-bold`}
-      >
+      <div className="mt-12 md:mt-24 mb-2 md:mb-8 text-4xl md:text-6xl font-bold">
         👋&nbsp;&nbsp;Hi, I&apos;m Cyandev
       </div>
       <Typewriter snippets={descriptiveStatements} />

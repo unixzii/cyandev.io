@@ -2,9 +2,12 @@ import "@/styles/globals.css";
 import { useEffect } from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { NavBar } from "@/components/nav";
 import { Footer } from "@/components/footer";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   const { staticMetadata } = Component;
@@ -65,7 +68,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <meta property="description" content={ogDescription} />
         )}
       </Head>
-      <div>
+      <div className={inter.className}>
         {!staticMetadata?.hidesNavBar && <NavBar />}
         <Component {...pageProps} />
         {!staticMetadata?.hidesNavBar && <Footer />}
