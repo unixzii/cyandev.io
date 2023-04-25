@@ -1,10 +1,10 @@
 import { ForwardedRef, PropsWithChildren, forwardRef } from "react";
 import { useRefWithHandler, renderHtmlElement } from "@/utils";
-import { HTMLTag, HTMLWrapperComponentProps } from "@/utils/types";
+import { WrappedComponent, WrapperComponentProps } from "@/utils/types";
 import { useRevealHighlight, ELEMENT_STATE_ENTERED } from "./reveal-highlight";
 
-export type ButtonProps<Tag extends HTMLTag> = HTMLWrapperComponentProps<
-  Tag,
+export type ButtonProps<Comp extends WrappedComponent> = WrapperComponentProps<
+  Comp,
   {
     // TBD.
     extraClassName?: string;
@@ -13,10 +13,12 @@ export type ButtonProps<Tag extends HTMLTag> = HTMLWrapperComponentProps<
 >;
 
 export interface ButtonComponent {
-  <Tag extends HTMLTag = "div">(props: ButtonProps<Tag>): JSX.Element;
+  <Comp extends WrappedComponent = "div">(
+    props: ButtonProps<Comp>
+  ): JSX.Element;
 }
 
-export const Button = forwardRef(function Button<T extends HTMLTag>(
+export const Button = forwardRef(function Button<T extends WrappedComponent>(
   props: PropsWithChildren<ButtonProps<T>>,
   ref: ForwardedRef<HTMLDivElement>
 ) {

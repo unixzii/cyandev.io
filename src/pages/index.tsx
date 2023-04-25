@@ -1,5 +1,6 @@
 import { FunctionComponent, useState, useMemo } from "react";
 import { GetStaticProps } from "next";
+import Link from "next/link";
 import { Typewriter } from "@/components/typewriter";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
 import { Button } from "@/components/button";
@@ -32,12 +33,11 @@ function Links(props: { links: MyLink[] }) {
         {inlineLinks.map((link) => (
           <Button
             key={link.url}
-            elementType="a"
+            elementType={Link}
             extraClassName="!py-2"
             title={link.title}
             aria-label={link.title}
             href={link.url}
-            target="_blank"
           >
             <Icon icon={link.icon as unknown as any} size="lg" />
           </Button>
@@ -63,11 +63,10 @@ function Links(props: { links: MyLink[] }) {
               return [
                 (active) => (
                   <Button
-                    elementType="a"
+                    elementType={Link}
                     active={active}
                     aria-label={link.title}
                     href={link.url}
-                    target="_blank"
                   >
                     {link.title}
                   </Button>

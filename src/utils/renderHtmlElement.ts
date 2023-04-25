@@ -1,9 +1,9 @@
 import { ReactNode, createElement } from "react";
-import { HTMLTag, HTMLWrapperComponentProps } from "./types";
+import { WrappedComponent, WrapperComponentProps } from "./types";
 
 export default function renderHtmlElement<
-  Tag extends HTMLTag,
-  P extends HTMLWrapperComponentProps<Tag, Record<string, any>>
+  Tag extends WrappedComponent,
+  P extends WrapperComponentProps<Tag, Record<string, any>>
 >(elementType: Tag, props: P, ourProps: (keyof P)[], children?: ReactNode) {
   const innerProps: Record<string, any> = {};
   for (const key in props) {

@@ -25,7 +25,7 @@
       "icon": "instagram",
       "url": "https://www.instagram.com/unixzii"
     },
-    { "title": "Blog", "url": "https://unixzii.github.io" },
+    { "title": "Blog", "url": "/blog" },
     {
       "title": "YouTube",
       "url": "https://www.youtube.com/channel/UCLr5iLa3ivr7kISqAdlGZjA"
