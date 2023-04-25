@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from "react";
-import { selectClass } from "@/utils/selectClass";
+import { selectClass } from "@/utils";
 
 type ReadableAreaProps = {
   hasVerticalMargins?: boolean;

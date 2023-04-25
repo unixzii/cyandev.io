@@ -6,9 +6,6 @@ import { Button } from "@/components/button";
 import { Menu, MenuButton } from "@/components/menu";
 import { Icon } from "@/components/icon";
 
-// For server-side rendering.
-import me from "@/data/me.json";
-
 type MyLink = {
   title: string;
   icon?: string;
@@ -120,6 +117,9 @@ Home.staticMetadata = {
   ogDescription: "👋 Hi, I'm Cyandev. This is my personal homepage, welcome.",
   hidesNavBar: true,
 };
+
+// For server-side rendering.
+import me from "@/../data/me.json";
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   return {
