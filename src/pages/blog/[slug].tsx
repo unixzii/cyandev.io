@@ -1,10 +1,44 @@
-import { FC, Fragment } from "react";
+import { FC, ReactElement } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import ReactMarkdown from "react-markdown";
 import remarkFrontmatter from "remark-frontmatter";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { ReadableArea } from "@/components/adaptive-containers";
 import { PostItem, formatTimestampToHumanReadableDate } from "./";
+
+type MarkdownReaderProps = {
+  children: string;
+};
+
+const MarkdownReader: FC<MarkdownReaderProps> = ({ children }) => {
+  return (
+    <ReactMarkdown
+      className="markdown-reader pt-6 md:pt-12 pb-6"
+      remarkPlugins={[remarkFrontmatter]}
+      components={{
+        pre({ children, ...props }) {
+          const maybeCodeElement = children[0] as ReactElement;
+          if (maybeCodeElement?.type == "code") {
+            const className = maybeCodeElement.props.className;
+            const match = /language-(\w+)/.exec(className || "");
+            if (match) {
+              const codeContents = maybeCodeElement.props.children;
+              return (
+                <SyntaxHighlighter language={match[1]} style={{ hljs: {} }}>
+                  {String(codeContents).replace(/\n$/, "")}
+                </SyntaxHighlighter>
+              );
+            }
+          }
+
+          return <pre {...props}>{children}</pre>;
+        },
+      }}
+    >
+      {children}
+    </ReactMarkdown>
+  );
+};
 
 type BlogPostProps = {
   rawContents: string;
@@ -30,30 +64,7 @@ const BlogPost: FC<BlogPostProps> = ({
               {description}
             </h2>
           </header>
-          <ReactMarkdown
-            className="markdown-reader pt-6 md:pt-12 pb-6"
-            remarkPlugins={[remarkFrontmatter]}
-            components={{
-              code({ inline, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || "");
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    language={match[1]}
-                    style={{}}
-                    PreTag={Fragment}
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </SyntaxHighlighter>
-                ) : (
-                  <code {...props} className={className}>
-                    {children}
-                  </code>
-                );
-              },
-            }}
-          >
-            {rawContents}
-          </ReactMarkdown>
+          <MarkdownReader>{rawContents}</MarkdownReader>
         </article>
       </main>
     </ReadableArea>
