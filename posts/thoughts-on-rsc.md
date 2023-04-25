@@ -15,7 +15,7 @@ As **React Server Components (RSC)** being actively discussed recently, I would 
 
 Before talking about what RSC is, I’d like to recap the real-world problem that [this video](https://youtu.be/TQQPAU21ZUw) talked about.
 
-Let’s imagine that we are implementing a artist detail page in Spotify. it consists of three parts: song details, top tracks and discography. The code may look like:
+Let’s imagine that we are implementing an artist page in Spotify. It consists of three parts: song details, top tracks and discography. The code may look like this:
 
 ```jsx
 function ArtistPage({ artistId }) {
