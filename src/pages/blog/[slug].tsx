@@ -41,15 +41,38 @@ const MarkdownReader: FC<MarkdownReaderProps> = ({ children }) => {
   );
 };
 
+const ShareButton: FC<{
+  children: string;
+  url: string;
+  params?: Record<string, string>;
+}> = ({ children, url, params }) => {
+  const urlBuilder = new URL(url);
+  for (const paramKey in params) {
+    urlBuilder.searchParams.append(paramKey, params[paramKey]);
+  }
+
+  return (
+    <a
+      className="text-foreground underline decoration-transparent hover:decoration-foreground transition-colors duration-200"
+      href={urlBuilder.toString()}
+      target="_blank"
+    >
+      {children}
+    </a>
+  );
+};
+
 type BlogPostProps = {
   rawContents: string;
   metadata: PostItem;
 };
 
-const BlogPost: FC<BlogPostProps> = ({
-  rawContents,
-  metadata: { title, tag, date, description },
-}) => {
+const BlogPost: FC<BlogPostProps> = (props) => {
+  const {
+    rawContents,
+    metadata: { title, tag, date, description },
+  } = props;
+
   return (
     <ReadableArea hasVerticalMargins>
       <main>
@@ -67,6 +90,24 @@ const BlogPost: FC<BlogPostProps> = ({
           </header>
           <MarkdownReader>{rawContents}</MarkdownReader>
         </article>
+        <p className="my-4 text-foreground-secondary">
+          Like this post?{" "}
+          <ShareButton
+            url="https://twitter.com/intent/tweet"
+            params={{
+              text: `I'd like to share this post from @unixzii:\n${
+                BlogPost.getDynamicMetadata?.(props).ogUrl
+              }`,
+            }}
+          >
+            Tweet
+          </ShareButton>{" "}
+          to share it with others or{" "}
+          <ShareButton url="https://github.com/unixzii/cyandev.io/issues/new">
+            open an issue
+          </ShareButton>{" "}
+          to discuss with me!
+        </p>
       </main>
     </ReadableArea>
   );
