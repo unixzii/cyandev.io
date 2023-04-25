@@ -3,13 +3,14 @@ import { HTMLTag, HTMLWrapperComponentProps } from "./types";
 
 export default function renderHtmlElement<
   Tag extends HTMLTag,
-  P extends HTMLWrapperComponentProps<Tag, {}>
+  P extends HTMLWrapperComponentProps<Tag, Record<string, any>>
 >(elementType: Tag, props: P, ourProps: (keyof P)[], children?: ReactNode) {
-  const innerProps = Object.assign({}, props);
-  for (const ourProp of ourProps) {
-    delete innerProps[ourProp];
+  const innerProps: Record<string, any> = {};
+  for (const key in props) {
+    if (!ourProps.includes(key) && key !== "elementType") {
+      innerProps[key] = props[key];
+    }
   }
-  delete innerProps["elementType"];
 
   return createElement(elementType, innerProps, children);
 }
