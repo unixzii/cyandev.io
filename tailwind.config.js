@@ -22,9 +22,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      minHeight: {
-        "apple-compat-screen": "var(--apple-compat-screen-height)",
-      },
       colors: {
         background: "#000",
         foreground: "#fff",

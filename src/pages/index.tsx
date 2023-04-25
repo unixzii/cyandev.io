@@ -27,7 +27,7 @@ function Links(props: { links: MyLink[] }) {
 
   return (
     <div
-      className={`pt-16 md:px-24 md:py-16 ${
+      className={`pt-24 md:px-24 md:py-24 ${
         menuOpened ? "md:opacity-100" : "md:opacity-60"
       } md:hover:opacity-100 md:transition-opacity md:duration-500`}
     >
@@ -101,13 +101,15 @@ const Home: FunctionComponent<HomeProps> = ({
   links,
 }) => {
   return (
-    <main className="flex px-4 py-16 min-h-apple-compat-screen flex-col items-center justify-center gap-4">
-      <div className="mt-12 md:mt-24 mb-2 md:mb-8 text-4xl md:text-6xl font-bold">
-        👋&nbsp;&nbsp;Hi, I&apos;m Cyandev
-      </div>
-      <Typewriter snippets={descriptiveStatements} />
-      <Links links={links} />
-    </main>
+    <div className="flex flex-col min-h-screen justify-center">
+      <main className="flex px-4 py-16 flex-col items-center">
+        <div className="mt-12 md:mt-24 mb-6 md:mb-12 text-4xl md:text-6xl font-bold">
+          👋&nbsp;&nbsp;Hi, I&apos;m Cyandev
+        </div>
+        <Typewriter snippets={descriptiveStatements} />
+        <Links links={links} />
+      </main>
+    </div>
   );
 };
 export default Home;

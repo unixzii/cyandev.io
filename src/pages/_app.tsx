@@ -1,5 +1,4 @@
 import "@/styles/globals.css";
-import { useEffect } from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import { Inter } from "next/font/google";
@@ -11,26 +10,6 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   const { staticMetadata } = Component;
-
-  useEffect(() => {
-    const platform = window.navigator.platform;
-    if (platform !== "iPhone" && platform !== "iPad") {
-      return;
-    }
-
-    function handleResize() {
-      const root = window.document.documentElement;
-      root.style.setProperty(
-        "--apple-compat-screen-height",
-        `${window.innerHeight * 0.999}px`
-      );
-    }
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const pageTitle = staticMetadata?.title;
   const ogUrl = staticMetadata?.ogUrl;
