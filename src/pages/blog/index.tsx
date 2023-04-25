@@ -43,6 +43,7 @@ const BlogIndex: FC<BlogIndexProps> = ({ posts }) => {
 export default BlogIndex;
 
 BlogIndex.staticMetadata = {
+  title: "Blog",
   ogUrl: "https://cyandev.app/blog",
   ogImage: "https://cyandev.app/twitter-cards/common.png",
   ogDescription: "Blog posts from Cyandev with ❤️",

@@ -73,6 +73,17 @@ const BlogPost: FC<BlogPostProps> = ({
 };
 export default BlogPost;
 
+BlogPost.getDynamicMetadata = ({ metadata }) => {
+  return {
+    title: metadata.title,
+    ogUrl: `https://cyandev.app/blog/${metadata.slug}`,
+    ogImage: `https://cyandev.app/api/og?title=${encodeURIComponent(
+      metadata.title
+    )}`,
+    ogDescription: metadata.description,
+  };
+};
+
 // For server-side rendering.
 import fs from "node:fs/promises";
 import path from "node:path";

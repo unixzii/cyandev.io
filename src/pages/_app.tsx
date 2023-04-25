@@ -9,12 +9,19 @@ import { Footer } from "@/components/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { staticMetadata } = Component;
+  const { staticMetadata, getDynamicMetadata } = Component;
 
-  const pageTitle = staticMetadata?.title;
-  const ogUrl = staticMetadata?.ogUrl;
-  const ogImage = staticMetadata?.ogImage;
-  const ogDescription = staticMetadata?.ogDescription;
+  const pageMetadata = (() => {
+    if (getDynamicMetadata) {
+      return getDynamicMetadata(pageProps);
+    }
+    return staticMetadata;
+  })();
+
+  const pageTitle = pageMetadata?.title;
+  const ogUrl = pageMetadata?.ogUrl;
+  const ogImage = pageMetadata?.ogImage;
+  const ogDescription = pageMetadata?.ogDescription;
 
   const title = `${(pageTitle && `${pageTitle} | `) || ""}Cyandev`;
 
@@ -48,9 +55,9 @@ export default function App({ Component, pageProps }: AppProps) {
         )}
       </Head>
       <div className={inter.className}>
-        {!staticMetadata?.hidesNavBar && <NavBar />}
+        {!pageMetadata?.hidesNavBar && <NavBar />}
         <Component {...pageProps} />
-        {!staticMetadata?.hidesNavBar && <Footer />}
+        {!pageMetadata?.hidesNavBar && <Footer />}
       </div>
       <Analytics />
     </>
