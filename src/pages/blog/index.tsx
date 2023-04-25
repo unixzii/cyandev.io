@@ -21,16 +21,18 @@ const BlogIndex: FC<BlogIndexProps> = ({ posts }) => {
         <h1 className="text-3xl md:text-4xl font-medium">All posts</h1>
         <ul className="py-6">
           {posts.map((post) => (
-            <li className="py-4" key={post.slug}>
-              <Link className="block" href={`/blog/${post.slug}`}>
-                <p className="mb-1 text-foreground-tertiary text-xs font-light">
-                  #{post.tag}
-                </p>
-                <h2 className="mb-1 text-2xl font-bold">{post.title}</h2>
-                <time className="block text-foreground-secondary text-sm">
-                  {formatTimestampToHumanReadableDate(post.date)}
-                </time>
+            <li className="block py-4" key={post.slug}>
+              <p className="mb-1 text-foreground-tertiary text-xs font-light">
+                #{post.tag}
+              </p>
+              <Link className="inline-block mb-1" href={`/blog/${post.slug}`}>
+                <h2 className="inline-block text-2xl font-bold underline decoration-transparent hover:decoration-foreground transition-colors duration-200">
+                  {post.title}
+                </h2>
               </Link>
+              <time className="block text-foreground-secondary text-sm">
+                {formatTimestampToHumanReadableDate(post.date)}
+              </time>
             </li>
           ))}
         </ul>
