@@ -1,116 +1,104 @@
 /* Global styles */
 .markdown-reader {
     @apply leading-relaxed text-foreground/80 text-lg font-light;
-}
 
-/* Reset text color for emphasized items */
-.markdown-reader h1, .markdown-reader h2, .markdown-reader h3, .markdown-reader strong, .markdown-reader pre {
-    @apply text-foreground;
-}
+    /* Reset text color for emphasized items */
+    h1, h2, h3, strong, pre {
+        @apply text-foreground;
+    }
 
-/* Heading styles */
-.markdown-reader h1 {
-    @apply text-3xl font-medium mt-12 mb-4;
-}
+    /* Heading styles */
+    h1 {
+        @apply text-3xl font-medium mt-12 mb-4;
+    }
+    h2 {
+        @apply text-2xl font-medium mt-8 mb-2;
+    }
+    h3 {
+        @apply text-xl font-medium mt-4 mb-1;
+    }
 
-.markdown-reader h2 {
-    @apply text-2xl font-medium mt-8 mb-2;
-}
+    /* Paragraph styles */
+    p {
+        @apply my-4;
+    }
 
-.markdown-reader h3 {
-    @apply text-xl font-medium mt-4 mb-1;
-}
+    /* Link styles */
+    a {
+        @apply text-blue-500 underline decoration-transparent transition-colors duration-200;
+        &:hover {
+            @apply decoration-blue-500;
+        }
+    }
 
-/* Paragraph styles */
-.markdown-reader p {
-    @apply my-4;
-}
+    /* Inline code styles */
+    code {
+        @apply px-1 text-foreground/90 bg-foreground/10 border border-border rounded-md;
+    }
 
-/* Link styles */
-.markdown-reader a {
-    @apply text-blue-600;
-}
+    /* Bold text styles */
+    strong {
+        @apply font-medium;
+    }
 
-.markdown-reader a:hover {
-    @apply underline;
-}
+    /* List styles */
+    ul {
+        list-style: unset;
+        padding-inline-start: 20px;
+    }
+    ol {
+        list-style: unset;
+        list-style-type: decimal;
+        padding-inline-start: 30px;
+    }
 
-/* Inline code styles */
-.markdown-reader code {
-    @apply px-1 text-foreground/90 bg-foreground/10 border border-border rounded-md;
-}
+    /* Blockquote styles */
+    blockquote, pre {
+        @apply my-4 px-4 py-4 bg-foreground/5 border border-border rounded-lg;
+    }
+    blockquote {
+        p {
+            @apply my-0 mb-2 text-foreground-secondary;
+        }
+        &>p:first-child strong {
+            @apply text-foreground;
+        }
+    }
+    pre {
+        @apply text-sm font-mono leading-relaxed overflow-x-auto;
+        code {
+            @apply bg-transparent border-none;
+        }
+    }
 
-/* Bold text styles */
-.markdown-reader strong {
-    @apply font-medium;
-}
-
-/* List styles */
-.markdown-reader ul {
-    list-style: unset;
-    padding-inline-start: 20px;
-}
-
-.markdown-reader ol {
-    list-style: unset;
-    list-style-type: decimal;
-    padding-inline-start: 30px;
-}
-
-/* Block styles */
-.markdown-reader blockquote, .markdown-reader pre {
-    @apply my-4 px-4 py-2 border border-border rounded-lg;
-}
-
-.markdown-reader blockquote p {
-    @apply my-0 text-foreground-secondary;
-}
-
-.markdown-reader blockquote>p:first-child strong {
-    @apply text-foreground;
-}
-
-.markdown-reader pre {
-    @apply text-sm font-mono leading-relaxed overflow-scroll;
-}
-
-.markdown-reader pre code {
-    @apply bg-transparent border-none;
-}
-
-/* Syntax highlighting theme */
-.markdown-reader code .comment {
-    @apply text-foreground/40;
-}
-
-.markdown-reader code .keyword {
-    @apply text-pink-400;
-}
-
-.markdown-reader code .string {
-    @apply text-green-400;
-}
-
-.markdown-reader code .number {
-    @apply text-blue-400;
-}
-
-.markdown-reader code .tag {
-    @apply text-blue-400;
-}
-
-.markdown-reader code .tag.attr-name {
-    @apply text-orange-400;
-}
-
-.markdown-reader code .tag.attr-value {
-    @apply text-green-400;
-}
-
-.markdown-reader code .tag.punctuation {
-    @apply text-blue-300;
-}
-
-.markdown-reader code .tag.attr-value.tag.punctuation {
-    @apply text-green-400;
+    code {
+        /* Syntax highlighting theme */
+        .comment {
+            @apply text-foreground/40;
+        }
+        .keyword, .boolean {
+            @apply text-blue-400;
+        }
+        .string {
+            @apply text-green-400;
+        }
+        .number {
+            @apply text-pink-400;
+        }
+        .function {
+            @apply text-orange-400;
+        }
+        .tag {
+            @apply text-blue-400;
+        }
+        .tag.attr-name {
+            @apply text-green-400;
+        }
+        .tag.attr-value {
+            @apply text-orange-300;
+        }
+        .punctuation, .tag.punctuation {
+            @apply text-foreground/70;
+        }
+    }
 }
