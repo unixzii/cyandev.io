@@ -1,6 +1,5 @@
 import renderHtmlElement from "./renderHtmlElement";
-import useOpaqueRef from "./useOpaqueRef";
-import useRefWithHandler from "./useRefWithHandler";
-import useTick from "./useTick";
+import selectClass from "./selectClass";
 
-export { renderHtmlElement, useOpaqueRef, useRefWithHandler, useTick };
+export { renderHtmlElement, selectClass };
+export { useOpaqueRef, useRefWithHandler, useTick } from "./hooks";

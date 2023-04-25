@@ -3,19 +3,12 @@ import { GetStaticProps } from "next";
 import Link from "next/link";
 import { format as formatDate } from "date-fns";
 import { ReadableArea } from "@/components/adaptive-containers";
+import { PostItem } from "@/server/post";
 
 export function formatTimestampToHumanReadableDate(timestamp: number): string {
   const date = new Date(timestamp);
   return formatDate(date, "MMM. do yyyy");
 }
-
-export type PostItem = {
-  title: string;
-  slug: string;
-  tag: string;
-  description: string;
-  date: number;
-};
 
 type BlogIndexProps = {
   posts: PostItem[];
@@ -56,7 +49,7 @@ BlogIndex.staticMetadata = {
 // For server-side rendering.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { getPostsDir, fetchPostMetadata } from "@/utils/server/post-fns";
+import { getPostsDir, fetchPostMetadata } from "@/server/post";
 
 export const getStaticProps: GetStaticProps<BlogIndexProps> = async () => {
   const postsDir = getPostsDir();

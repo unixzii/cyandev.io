@@ -1,4 +1,4 @@
-export function selectClass(
+export default function selectClass(
   selectors: Record<string, boolean | undefined>,
   extraClassName?: string
 ): string {

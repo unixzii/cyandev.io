@@ -4,7 +4,8 @@ import ReactMarkdown from "react-markdown";
 import remarkFrontmatter from "remark-frontmatter";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { ReadableArea } from "@/components/adaptive-containers";
-import { PostItem, formatTimestampToHumanReadableDate } from "./";
+import { PostItem } from "@/server/post";
+import { formatTimestampToHumanReadableDate } from "./";
 
 type MarkdownReaderProps = {
   children: string;
@@ -75,7 +76,7 @@ export default BlogPost;
 // For server-side rendering.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { getPostsDir, fetchPostMetadata } from "@/utils/server/post-fns";
+import { getPostsDir, fetchPostMetadata } from "@/server/post";
 
 export const getStaticProps: GetStaticProps<BlogPostProps> = async (
   context

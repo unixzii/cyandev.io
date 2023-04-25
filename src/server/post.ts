@@ -6,11 +6,16 @@ import remarkStringify from "remark-stringify";
 import remarkFrontmatter from "remark-frontmatter";
 import { parse as parseYaml } from "yaml";
 
-// TODO: This is a little tricky, need to extract these types.
-import { PostItem } from "../../pages/blog";
+export type PostItem = {
+  title: string;
+  slug: string;
+  tag: string;
+  description: string;
+  date: number;
+};
 
 export function getPostsDir(): string {
-  return path.resolve("./posts");
+  return path.resolve("./data/posts");
 }
 
 export async function fetchPostMetadata(
