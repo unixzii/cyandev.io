@@ -1,5 +1,5 @@
 import useOpaqueRef from "./useOpaqueRef";
 import useRefWithHandler from "./useRefWithHandler";
-import useTick from "./useTick";
+import useDelayedEffect from "./useDelayedEffect";
 
-export { useOpaqueRef, useRefWithHandler, useTick };
+export { useOpaqueRef, useRefWithHandler, useDelayedEffect };

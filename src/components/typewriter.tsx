@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useTick } from "@/utils";
+import { useReducer, useRef } from "react";
+import { useDelayedEffect } from "@/utils";
 
 enum TypewriterTransitionStage {
   Deleting = 0,
@@ -84,6 +84,13 @@ function rangedRandom(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+type UseTypewriterState = UseTypewriter & { delay: number; ticks: number };
+type UseTypewriterAction = {
+  currentString: string;
+  targetString: string;
+  stage: TypewriterTransitionStage | undefined;
+};
+
 type UseTypewriter = {
   currentString: string;
   targetString: string;
@@ -93,52 +100,86 @@ function useTypewriter(snippets: string[]): UseTypewriter {
   const snippetsRef = useRef(snippets);
   const indexRef = useRef(0);
   const transitionRef = useRef<TypewriterTransitionState | null>(null);
+  const [{ currentString, targetString, idle, delay, ticks }, update] =
+    useReducer(
+      (
+        { ticks: prevTicks }: UseTypewriterState,
+        { currentString, targetString, stage }: UseTypewriterAction
+      ) => {
+        let nextDelay: number;
+        let nextIdle = false;
+        if (stage === undefined) {
+          nextDelay = rangedRandom(1500, 3000);
+          nextIdle = true;
+        } else {
+          if (stage == TypewriterTransitionStage.Inserting) {
+            nextDelay = rangedRandom(50, 100);
+          } else if (stage == TypewriterTransitionStage.ReadyToInsert) {
+            nextDelay = 200;
+            nextIdle = true;
+          } else {
+            nextDelay = rangedRandom(30, 50);
+            nextIdle = false;
+          }
+        }
+        return {
+          currentString,
+          targetString,
+          idle: nextIdle,
+          delay: nextDelay,
+          ticks: prevTicks + 1,
+        };
+      },
+      {
+        currentString: snippets[0],
+        targetString: snippets[0],
+        idle: true as boolean,
+        delay: 2000,
+        ticks: 0,
+      }
+    );
 
-  const transition = transitionRef.current;
-  let idle = true;
-  const tick = useTick(
-    (() => {
+  useDelayedEffect(
+    delay,
+    () => {
+      const snippets = snippetsRef.current;
+      const currentIndex = indexRef.current;
+      const nextIndex = (currentIndex + 1) % snippets.length;
+
+      let transition = transitionRef.current;
+      let currentString: string;
+      let targetString: string;
       if (!transition) {
-        return rangedRandom(1500, 3000);
-      }
-      const stage = transition.stage;
-      if (stage == TypewriterTransitionStage.Inserting) {
-        idle = false;
-        return rangedRandom(50, 100);
-      } else if (stage == TypewriterTransitionStage.ReadyToInsert) {
-        return 200;
+        // No `transition` means this is the initial render or it
+        // is time to go to the next snippet.
+        transition = new TypewriterTransitionState(
+          snippets[currentIndex],
+          snippets[nextIndex]
+        );
+        transitionRef.current = transition;
+        indexRef.current = nextIndex;
+        currentString = transition.current;
+        targetString = transition.target;
       } else {
-        idle = false;
-        return rangedRandom(30, 50);
+        const running = transition.advance();
+        currentString = transition.current;
+        targetString = transition.target;
+        if (!running) {
+          // The transition is completed, release it for the
+          // next one.
+          transitionRef.current = null;
+          transition = null;
+        }
       }
-    })()
+
+      update({ currentString, targetString, stage: transition?.stage });
+    },
+    [snippetsRef, indexRef, update, ticks]
   );
 
-  useEffect(() => {
-    const snippets = snippetsRef.current;
-    const currentIndex = indexRef.current;
-    const nextIndex = (currentIndex + 1) % snippets.length;
-
-    let transition = transitionRef.current;
-    if (!transition) {
-      transition = new TypewriterTransitionState(
-        snippets[currentIndex],
-        snippets[nextIndex]
-      );
-      transitionRef.current = transition;
-      indexRef.current = nextIndex;
-    } else {
-      if (!transition.advance()) {
-        // The transition is completed, release it for the
-        // next one.
-        transitionRef.current = null;
-      }
-    }
-  }, [snippetsRef, indexRef, tick]);
-
   return {
-    currentString: transition?.current || snippets[indexRef.current],
-    targetString: transition?.target || snippets[indexRef.current],
+    currentString,
+    targetString,
     idle,
   };
 }
