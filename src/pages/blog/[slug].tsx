@@ -1,9 +1,11 @@
 import { FC, ReactElement } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
-import ReactMarkdown from "react-markdown";
 import remarkFrontmatter from "remark-frontmatter";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { ReadableArea } from "@/components/adaptive-containers";
+import {
+  ReactMarkdown,
+  ClientOnlySyntaxHighlighter,
+} from "@/components/markdown";
 import { PostItem } from "@/server/post";
 import { formatTimestampToHumanReadableDate } from "./";
 
@@ -25,9 +27,9 @@ const MarkdownReader: FC<MarkdownReaderProps> = ({ children }) => {
             if (match) {
               const codeContents = maybeCodeElement.props.children;
               return (
-                <SyntaxHighlighter language={match[1]} style={{ hljs: {} }}>
+                <ClientOnlySyntaxHighlighter language={match[1]}>
                   {String(codeContents).replace(/\n$/, "")}
-                </SyntaxHighlighter>
+                </ClientOnlySyntaxHighlighter>
               );
             }
           }
