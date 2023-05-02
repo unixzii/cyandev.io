@@ -21,10 +21,6 @@ export function DefaultRevealHighlight(props: DefaultRevealHighlightProps) {
       height: 0,
       top: 0,
       left: 0,
-      config: {
-        tension: 270,
-        friction: 30,
-      },
     };
   }, []);
 
@@ -36,6 +32,10 @@ export function DefaultRevealHighlight(props: DefaultRevealHighlightProps) {
     if (animationEnabledRef.current) {
       springApi.start({
         to: { width, height, top, left },
+        config: {
+          tension: 270,
+          friction: 30,
+        },
       });
     } else {
       springApi.set({ width, height, top, left });
