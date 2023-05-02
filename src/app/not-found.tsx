@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
 import { Button } from "@/components/button";
 import { Icon } from "@/components/icon";
@@ -11,7 +10,6 @@ export const metadata = buildMetadata({
 });
 
 export default function NotFound() {
-  const router = useRouter();
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <div className="relative">
@@ -37,10 +35,12 @@ export default function NotFound() {
           </Button>
           <div className="inline-block w-0.5 h-3 mx-2 bg-border" />
           <Button
+            elementType="a"
             extraClassName="!py-2"
             title="Home"
             aria-label="Home"
-            onClick={() => router.push("/")}
+            /* FIXME: router not working here. */
+            href="/"
           >
             <Icon icon="house" className="text-base" />
           </Button>
