@@ -1,13 +1,10 @@
-import { ComponentProps, ComponentType, ExoticComponent } from "react";
+import { ComponentProps, ComponentType } from "react";
 
 export type MethodKeys<T> = {
   [K in keyof T]: T[K] extends (...args: any) => any ? K : never;
 }[keyof T];
 
-export type WrappedComponent =
-  | keyof JSX.IntrinsicElements
-  | ComponentType
-  | ExoticComponent<any>;
+export type WrappedComponent = keyof JSX.IntrinsicElements | ComponentType<any>;
 type WrappedComponentSelectorProps<Comp extends WrappedComponent> = {
   elementType?: Comp;
 };
