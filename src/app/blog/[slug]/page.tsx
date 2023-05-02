@@ -58,3 +58,12 @@ export default async function Page({ params: { slug } }: { params: Params }) {
     </main>
   );
 }
+
+export async function generateStaticParams() {
+  const postsDir = getPostsDir();
+  const dir = await fs.readdir(postsDir);
+
+  return dir.map((file) => ({
+    slug: path.basename(file, path.extname(file)),
+  }));
+}
