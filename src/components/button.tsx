@@ -1,3 +1,5 @@
+"use client";
+
 import { ForwardedRef, PropsWithChildren, forwardRef } from "react";
 import { useRefWithHandler, renderHtmlElement } from "@/utils";
 import { WrappedComponent, WrapperComponentProps } from "@/utils/types";

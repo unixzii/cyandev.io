@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, Fragment, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ReadableArea } from "./adaptive-containers";

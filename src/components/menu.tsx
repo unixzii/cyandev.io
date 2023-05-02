@@ -1,3 +1,5 @@
+"use client";
+
 import { Fragment, ReactElement, useEffect } from "react";
 import { Menu as HeadlessMenu, Transition } from "@headlessui/react";
 import { useOpaqueRef } from "@/utils";

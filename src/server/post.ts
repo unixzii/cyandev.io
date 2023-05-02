@@ -6,7 +6,7 @@ import remarkStringify from "remark-stringify";
 import remarkFrontmatter from "remark-frontmatter";
 import { parse as parseYaml } from "yaml";
 
-export type PostItem = {
+export type PostMetadata = {
   title: string;
   slug: string;
   tag: string;
@@ -20,7 +20,7 @@ export function getPostsDir(): string {
 
 export async function fetchPostMetadata(
   filePath: string
-): Promise<PostItem | undefined> {
+): Promise<PostMetadata | undefined> {
   let metadataYaml: string | undefined;
 
   const file = await fs.readFile(filePath);

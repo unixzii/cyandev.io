@@ -1,10 +1,16 @@
-import { FunctionComponent } from "react";
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
 import { Button } from "@/components/button";
 import { Icon } from "@/components/icon";
+import { buildMetadata } from "@/utils";
 
-const NotFound: FunctionComponent = () => {
+export const metadata = buildMetadata({
+  title: "404 Not Found",
+});
+
+export default function NotFound() {
   const router = useRouter();
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
@@ -42,10 +48,4 @@ const NotFound: FunctionComponent = () => {
       </div>
     </main>
   );
-};
-export default NotFound;
-
-NotFound.staticMetadata = {
-  title: "404 Not Found",
-  hidesNavBar: true,
-};
+}

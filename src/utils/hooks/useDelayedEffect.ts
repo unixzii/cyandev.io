@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, EffectCallback, DependencyList } from "react";
 
 export default function useDelayedEffect(

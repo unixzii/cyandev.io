@@ -1,3 +1,5 @@
+"use client";
+
 import { useReducer, useRef } from "react";
 import { useDelayedEffect } from "@/utils";
 
