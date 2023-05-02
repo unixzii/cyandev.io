@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
+import { Link } from "@/components/link";
 import { Button } from "@/components/button";
 import { Icon } from "@/components/icon";
 import { Menu, MenuButton } from "@/components/menu";

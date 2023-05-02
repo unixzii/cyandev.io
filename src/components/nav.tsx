@@ -1,9 +1,9 @@
 "use client";
 
 import { FC, Fragment, useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { ReadableArea } from "./adaptive-containers";
 import { selectClass } from "@/utils";
+import { Link } from "./link";
+import { ReadableArea } from "./adaptive-containers";
 
 export const NavBar: FC = () => {
   const [hairlineVisible, setHairlineVisible] = useState(false);
