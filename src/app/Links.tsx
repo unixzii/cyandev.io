@@ -1,19 +1,19 @@
-import { FunctionComponent, useState, useMemo } from "react";
-import { GetStaticProps } from "next";
+"use client";
+
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Typewriter } from "@/components/typewriter";
 import { RevealHighlightPlatter } from "@/components/reveal-highlight";
 import { Button } from "@/components/button";
-import { Menu, MenuButton } from "@/components/menu";
 import { Icon } from "@/components/icon";
+import { Menu, MenuButton } from "@/components/menu";
 
-type MyLink = {
+export type LinkItem = {
   title: string;
   icon?: string;
   url: string;
 };
 
-function Links(props: { links: MyLink[] }) {
+export function Links(props: { links: LinkItem[] }) {
   const { links } = props;
   const [inlineLinks, overflowLinks] = useMemo(() => {
     if (links.length <= 3) {
@@ -86,45 +86,3 @@ function Links(props: { links: MyLink[] }) {
     </div>
   );
 }
-
-type HomeProps = {
-  descriptiveStatements: string[];
-  links: MyLink[];
-};
-
-const Home: FunctionComponent<HomeProps> = ({
-  descriptiveStatements,
-  links,
-}) => {
-  return (
-    <div className="flex flex-col min-h-screen justify-center">
-      <main className="flex px-4 py-16 flex-col items-center">
-        <div className="mt-12 md:mt-24 mb-6 md:mb-12 text-4xl md:text-6xl font-bold">
-          👋&nbsp;&nbsp;Hi, I&apos;m Cyandev
-        </div>
-        <Typewriter snippets={descriptiveStatements} />
-        <Links links={links} />
-      </main>
-    </div>
-  );
-};
-export default Home;
-
-Home.staticMetadata = {
-  ogUrl: "https://cyandev.app",
-  ogImage: "https://cyandev.app/twitter-cards/common.png",
-  ogDescription: "👋 Hi, I'm Cyandev. This is my personal homepage, welcome.",
-  hidesNavBar: true,
-};
-
-// For server-side rendering.
-import me from "@/../data/me.json";
-
-export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  return {
-    props: {
-      descriptiveStatements: me.descriptive_statements,
-      links: me.links,
-    },
-  };
-};

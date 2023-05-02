@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import { useSpring, animated } from "@react-spring/web";
 
@@ -12,28 +14,30 @@ type DefaultRevealHighlightProps = {
 
 export function DefaultRevealHighlight(props: DefaultRevealHighlightProps) {
   const { width, height, top, left, visible, pressed } = props;
-  const memorizedProps = useRef({
-    width,
-    height,
-    top,
-    left,
-  });
   const animationEnabledRef = useRef(false);
   const [springValues, springApi] = useSpring(() => {
-    if (visible) {
-      Object.assign(memorizedProps.current, { width, height, top, left });
-    }
     return {
-      ...memorizedProps.current,
+      width: 0,
+      height: 0,
+      top: 0,
+      left: 0,
       config: {
         tension: 270,
         friction: 30,
       },
     };
-  }, [memorizedProps, visible, width, height, top, left]);
+  }, []);
 
   useEffect(() => {
-    if (!animationEnabledRef.current && visible) {
+    if (!visible) {
+      return;
+    }
+
+    if (animationEnabledRef.current) {
+      springApi.start({
+        to: { width, height, top, left },
+      });
+    } else {
       springApi.set({ width, height, top, left });
       animationEnabledRef.current = true;
     }

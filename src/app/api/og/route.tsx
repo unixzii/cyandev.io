@@ -1,16 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { ImageResponse } from "@vercel/og";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
 
 const font = fetch(
-  new URL("../../../assets/fonts/Inter-Bold.ttf", import.meta.url)
+  new URL("../../../../assets/fonts/Inter-Bold.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
-export default async function Og(req: NextRequest) {
-  const { searchParams } = req.nextUrl;
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
   const title = searchParams.get("title");
   if (!title) {
     return NextResponse.json({ err: "invalid request" }, { status: 400 });
