@@ -25,14 +25,14 @@ const ShareButton: FC<{
 };
 
 type BlogPostProps = {
-  rawContents: string;
+  contents: string;
   metadata: PostMetadata;
   shareUrl: string;
 };
 
 export function BlogPost(props: BlogPostProps) {
   const {
-    rawContents,
+    contents,
     metadata: { title, tag, date, description },
     shareUrl,
   } = props;
@@ -51,7 +51,7 @@ export function BlogPost(props: BlogPostProps) {
             {description}
           </h2>
         </header>
-        <MarkdownReader>{rawContents}</MarkdownReader>
+        <MarkdownReader>{contents}</MarkdownReader>
       </article>
       <p className="my-4 text-foreground-secondary">
         Like this post?{" "}

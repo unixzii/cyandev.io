@@ -1,28 +1,22 @@
-import fs from "node:fs/promises";
-import path from "node:path";
 import { Metadata as NextMetadata } from "next";
-import { PostMetadata, fetchPostMetadata, getPostsDir } from "@/server/post";
+import { notFound } from "next/navigation";
+import { PostMetadata, processPostContents, fetchPosts } from "@/server/post";
 import { buildMetadata } from "@/utils";
 import { BlogPost } from "./BlogPost";
 
 type Post = {
-  rawContents: string;
   metadata: PostMetadata;
+  contents: string;
 };
 
 async function getPost(slug: string): Promise<Post> {
-  const postsDir = getPostsDir();
-  const fileName = `${slug}.md`;
-  const file = await fs.readFile(path.resolve(postsDir, fileName));
-  const metadata = await fetchPostMetadata(path.resolve(postsDir, fileName));
-  if (!metadata) {
+  const processed = await processPostContents(slug);
+  if (!processed) {
     throw new Error("Failed to parse the metadata");
   }
 
-  return {
-    rawContents: file.toString("utf-8"),
-    metadata,
-  };
+  const [metadata, contents] = processed;
+  return { metadata, contents };
 }
 
 type Params = {
@@ -34,36 +28,38 @@ export async function generateMetadata({
 }: {
   params: Params;
 }): Promise<NextMetadata> {
-  const { metadata } = await getPost(slug);
-  return buildMetadata({
-    title: metadata.title,
-    description: metadata.description,
-    ogUrl: `https://cyandev.app/blog/${metadata.slug}`,
-    ogImage: `https://cyandev.app/api/og?title=${encodeURIComponent(
-      metadata.title
-    )}`,
-  });
+  try {
+    const { metadata } = await getPost(slug);
+    return buildMetadata({
+      title: metadata.title,
+      description: metadata.description,
+      ogUrl: `https://cyandev.app/blog/${metadata.slug}`,
+      ogImage: `https://cyandev.app/api/og?title=${encodeURIComponent(
+        metadata.title
+      )}`,
+    });
+  } catch {
+    return buildMetadata({});
+  }
 }
 
 export default async function Page({ params: { slug } }: { params: Params }) {
-  const { rawContents, metadata } = await getPost(slug);
-
-  return (
-    <main>
-      <BlogPost
-        rawContents={rawContents}
-        metadata={metadata}
-        shareUrl={`https://cyandev.app/blog/${slug}`}
-      />
-    </main>
-  );
+  try {
+    const { metadata, contents } = await getPost(slug);
+    return (
+      <main>
+        <BlogPost
+          contents={contents}
+          metadata={metadata}
+          shareUrl={`https://cyandev.app/blog/${slug}`}
+        />
+      </main>
+    );
+  } catch {
+    notFound();
+  }
 }
 
 export async function generateStaticParams() {
-  const postsDir = getPostsDir();
-  const dir = await fs.readdir(postsDir);
-
-  return dir.map((file) => ({
-    slug: path.basename(file, path.extname(file)),
-  }));
+  return (await fetchPosts(false)).map((post) => ({ slug: post.slug }));
 }

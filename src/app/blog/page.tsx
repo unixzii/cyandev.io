@@ -1,6 +1,4 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { PostMetadata, getPostsDir, fetchPostMetadata } from "@/server/post";
+import { PostMetadata, fetchPosts } from "@/server/post";
 import { buildMetadata } from "@/utils";
 import { BlogIndex } from "./BlogIndex";
 
@@ -11,25 +9,17 @@ export const metadata = buildMetadata({
   ogImage: "https://cyandev.app/twitter-cards/common.png",
 });
 
-async function getPosts(): Promise<PostMetadata[]> {
-  const postsDir = getPostsDir();
-  const dir = await fs.readdir(postsDir);
+async function fetchOrderedPostMetadataList(): Promise<PostMetadata[]> {
+  const posts = await fetchPosts(true);
 
-  const posts = [];
-  for (const file of dir) {
-    const post = await fetchPostMetadata(path.join(postsDir, file));
-    if (post) {
-      posts.push(post);
-    }
-  }
+  const postMetadataList = posts.map((post) => post.metadata);
+  postMetadataList.sort((a, b) => b.date - a.date);
 
-  posts.sort((a, b) => b.date - a.date);
-
-  return posts;
+  return postMetadataList;
 }
 
 export default async function Page() {
-  const posts = await getPosts();
+  const posts = await fetchOrderedPostMetadataList();
 
   return (
     <main>
