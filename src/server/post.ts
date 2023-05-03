@@ -18,13 +18,15 @@ export function getPostsDir(): string {
   return path.resolve("./data/posts");
 }
 
-export async function fetchPostMetadata(
-  filePath: string
-): Promise<PostMetadata | undefined> {
+export async function processPostContents(
+  slug: string
+): Promise<[PostMetadata, string] | undefined> {
+  const filePath = path.join(getPostsDir(), `${slug}.md`);
+  const rawContents = (await fs.readFile(filePath)).toString("utf-8");
+
   let metadataYaml: string | undefined;
 
-  const file = await fs.readFile(filePath);
-  await unified()
+  const processedContents = await unified()
     .use(remarkParse)
     .use(remarkStringify)
     .use(remarkFrontmatter, ["yaml"])
@@ -32,9 +34,10 @@ export async function fetchPostMetadata(
       const metadata = tree.children[0];
       if (metadata.type === "yaml") {
         metadataYaml = metadata.value;
+        tree.children.splice(0, 1);
       }
     })
-    .process(file);
+    .process(rawContents);
 
   if (!metadataYaml) {
     return;
@@ -46,8 +49,49 @@ export async function fetchPostMetadata(
   if (metadata.date) {
     metadata.date = +new Date(metadata.date);
   }
-  return {
-    ...metadata,
-    slug: path.basename(filePath, path.extname(filePath)),
-  };
+  metadata.slug = slug;
+  return [metadata, processedContents.toString()];
+}
+
+export type Post = {
+  slug: string;
+  metadata: PostMetadata;
+  contents: string;
+};
+
+export type FetchPostsResult<B extends boolean> = B extends true
+  ? Post
+  : Pick<Post, "slug">;
+
+export async function fetchPosts<B extends boolean>(
+  processContents: B
+): Promise<FetchPostsResult<B>[]> {
+  const postsDir = getPostsDir();
+  const dir = await fs.readdir(postsDir);
+
+  const posts: Record<string, any>[] = [];
+
+  for (const file of dir) {
+    const slug = path.basename(file, path.extname(file));
+
+    if (processContents) {
+      const processed = await processPostContents(slug);
+      if (!processed) {
+        const filePath = path.join(postsDir, file);
+        throw new Error(`Failed to process the file: ${filePath}`);
+      }
+      const [metadata, contents] = processed;
+      posts.push({
+        slug,
+        metadata,
+        contents,
+      } satisfies FetchPostsResult<true>);
+    } else {
+      posts.push({
+        slug,
+      } satisfies FetchPostsResult<false>);
+    }
+  }
+
+  return posts as FetchPostsResult<B>[];
 }

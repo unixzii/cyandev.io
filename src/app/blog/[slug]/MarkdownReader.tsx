@@ -1,5 +1,4 @@
 import { ReactElement } from "react";
-import remarkFrontmatter from "remark-frontmatter";
 import ReactMarkdown from "react-markdown";
 import { SyntaxHighlighter } from "@/components/markdown";
 
@@ -11,7 +10,6 @@ export function MarkdownReader({ children }: MarkdownReaderProps) {
   return (
     <ReactMarkdown
       className="markdown-reader pt-6 md:pt-12 pb-6"
-      remarkPlugins={[remarkFrontmatter]}
       components={{
         pre({ children, ...props }) {
           const maybeCodeElement = children[0] as ReactElement;
