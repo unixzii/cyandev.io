@@ -32,7 +32,7 @@ It’s very straightforward, but there is an obvious issue: How do these compone
 
 One approach is to fetch them all together in the top-level component:
 
-```jsx
+```jsx{1}
 function ArtistPage({ artistId }) {
   const stuff = fetchAllTheStuff(artistId);
   return (
@@ -141,7 +141,7 @@ In this example, the server component renders HTML elements, client components a
 
 When rendering server components, the code runs directly on the server side:
 
-```jsx
+```jsx{4,5,6,7}
 export default async function NoteList({ searchText }) {
   // You can access DB, cache and all the stuffs that only
   // the server code can.
@@ -178,7 +178,7 @@ That’s it, pretty easy to understand.
 
 So far, we haven’t covered the part of updates. So how does it work with RSC? Here is an example:
 
-```jsx
+```jsx{17,18,19}
 export default function SearchField({ placeholder }) {
   const [text, setText] = useState("");
   const [isSearching, startSearching] = useTransition();
@@ -212,7 +212,7 @@ Currently, developers can only put interactions in client components. And `Searc
 
 Here we pass the `newText` to the query part of the page location. The router refetches the whole V-DOM with a single API request:
 
-```jsx
+```jsx{9,10,11}
 export function Router() {
   // ...
   const [location, setLocation] = useState({
@@ -276,7 +276,7 @@ The response has a special protocol that contains a sequence of data that client
 
 The function that processes this data looks like:
 
-```jsx
+```jsx{19}
 function processFullRow(response, row) {
   if (row === "") {
     return;
