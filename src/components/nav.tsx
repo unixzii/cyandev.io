@@ -31,7 +31,7 @@ export const NavBar: FC = () => {
     <Fragment>
       <nav
         className={selectClass({
-          "fixed top-0 w-full py-4 backdrop-blur bg-background/80 border-b transition-colors duration-500":
+          "fixed top-0 w-full py-4 z-50 backdrop-blur bg-background/80 border-b transition-colors duration-500":
             true,
           "border-border": hairlineVisible,
           "border-transparent": !hairlineVisible,

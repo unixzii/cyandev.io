@@ -15,11 +15,11 @@ export function MarkdownReader({ children }: MarkdownReaderProps) {
           const maybeCodeElement = children[0] as ReactElement;
           if (maybeCodeElement?.type == "code") {
             const className = maybeCodeElement.props.className;
-            const match = /language-(\w+)/.exec(className || "");
+            const match = /language-(.+)/.exec(className || "");
             if (match) {
               const codeContents = maybeCodeElement.props.children;
               return (
-                <SyntaxHighlighter language={match[1]}>
+                <SyntaxHighlighter languageAndOptions={match[1]}>
                   {String(codeContents).replace(/\n$/, "")}
                 </SyntaxHighlighter>
               );

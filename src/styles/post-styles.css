@@ -33,7 +33,7 @@
 
     /* Inline code styles */
     code {
-        @apply px-1 text-foreground/90 bg-foreground/10 border border-border rounded-md;
+        @apply px-1.5 py-0.5 text-foreground/90 bg-foreground/10 border border-border text-sm rounded-md;
     }
 
     /* Bold text styles */
@@ -54,9 +54,10 @@
 
     /* Blockquote styles */
     blockquote, pre {
-        @apply my-4 px-4 py-4 bg-foreground/5 border border-border rounded-lg;
+        @apply my-4 py-4 bg-foreground/5 border border-border rounded-lg;
     }
     blockquote {
+        @apply px-4;
         p {
             @apply my-0 mb-2 text-foreground-secondary;
         }
@@ -65,9 +66,9 @@
         }
     }
     pre {
-        @apply text-sm font-mono leading-relaxed overflow-x-auto;
+        @apply flex text-sm font-mono leading-relaxed overflow-x-auto;
         code {
-            @apply bg-transparent border-none;
+            @apply px-0 py-0 bg-transparent border-none;
         }
     }
 
