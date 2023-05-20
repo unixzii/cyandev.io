@@ -49,8 +49,32 @@ export async function processPostContents(
   if (metadata.date) {
     metadata.date = +new Date(metadata.date);
   }
-  metadata.slug = slug;
+
+  const langSuffix = path.extname(slug);
+  metadata.slug = langSuffix ? path.basename(slug, langSuffix) : slug;
+
   return [metadata, processedContents.toString()];
+}
+
+export async function getPostTranslations(slug: string): Promise<string[]> {
+  const postsDir = getPostsDir();
+  const dir = await fs.readdir(postsDir);
+
+  const translations: string[] = [];
+
+  for (const file of dir) {
+    const slug_ = path.basename(file, path.extname(file));
+    const langSuffix = path.extname(slug_);
+    if (!langSuffix) {
+      continue;
+    }
+
+    if (path.basename(slug_, langSuffix) === slug) {
+      translations.push(langSuffix.slice(1));
+    }
+  }
+
+  return translations;
 }
 
 export type Post = {
@@ -73,6 +97,12 @@ export async function fetchPosts<B extends boolean>(
 
   for (const file of dir) {
     const slug = path.basename(file, path.extname(file));
+    const langSuffix = path.extname(slug);
+
+    if (langSuffix) {
+      // Do not include translation versions in the post list.
+      continue;
+    }
 
     if (processContents) {
       const processed = await processPostContents(slug);

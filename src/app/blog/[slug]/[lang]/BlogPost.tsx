@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { PostMetadata } from "@/server/post";
 import { formatTimestampToHumanReadableDate } from "@/utils/date-fns";
+import { LangSwitcherInteraction } from "./LangSwitcherInteraction";
 import { MarkdownReader } from "./MarkdownReader";
 
 const ShareButton: FC<{
@@ -28,19 +29,33 @@ type BlogPostProps = {
   contents: string;
   metadata: PostMetadata;
   shareUrl: string;
+  availableTranslations: string[];
+  lang?: string;
 };
 
 export function BlogPost(props: BlogPostProps) {
   const {
     contents,
-    metadata: { title, tag, date, description },
+    metadata: { slug, title, tag, date, description },
     shareUrl,
+    availableTranslations,
+    lang,
   } = props;
+
+  // TODO: do we need to add supports for other languages?
+  const hasChineseVersion = availableTranslations.includes("zh_CN");
+  const isChineseVersion = lang === "zh_CN";
 
   return (
     <>
       <article>
         <header>
+          {hasChineseVersion ? (
+            <LangSwitcherInteraction
+              slug={slug}
+              translationEnabled={isChineseVersion}
+            />
+          ) : null}
           <p className="text-foreground-tertiary mb-2">
             #{tag} / <time>{formatTimestampToHumanReadableDate(date)}</time>
           </p>
