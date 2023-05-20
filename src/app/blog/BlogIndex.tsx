@@ -14,7 +14,7 @@ export function BlogIndex({ posts }: BlogIndexProps) {
           <p className="mb-1 text-foreground-tertiary text-xs font-light">
             #{post.tag}
           </p>
-          <Link className="inline-block mb-1" href={`/blog/${post.slug}`}>
+          <Link className="inline-block mb-1" href={`/blog/${post.slug}/en`}>
             <h2 className="inline-block text-2xl font-bold underline decoration-transparent hover:decoration-foreground transition-colors duration-200">
               {post.title}
             </h2>
