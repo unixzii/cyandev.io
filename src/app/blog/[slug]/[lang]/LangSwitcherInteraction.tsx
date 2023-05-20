@@ -27,7 +27,7 @@ export function LangSwitcherInteraction(props: LangSwitcherInteractionProps) {
       if (value) {
         router.replace(`/blog/${slug}/zh_CN`);
       } else {
-        router.replace(`/blog/${slug}`);
+        router.replace(`/blog/${slug}/en`);
       }
     }, 200);
   }
