@@ -28,8 +28,18 @@ type Params = {
   lang?: string;
 };
 
+function normalizeLang(lang: string | undefined): string | undefined {
+  if (lang === "en") {
+    return undefined;
+  }
+  return lang;
+}
+
 function urlForParams({ slug, lang }: Params): string {
-  return `https://cyandev.app/blog/${slug}${lang ? `/${lang}` : ""}`;
+  const normalizedLang = normalizeLang(lang);
+  return `https://cyandev.app/blog/${slug}${
+    normalizedLang ? `/${normalizedLang}` : ""
+  }`;
 }
 
 export async function generateMetadata({
@@ -37,7 +47,8 @@ export async function generateMetadata({
 }: {
   params: Params;
 }): Promise<NextMetadata> {
-  const slugWithLang = lang ? `${slug}.${lang}` : slug;
+  const normalizedLang = normalizeLang(lang);
+  const slugWithLang = normalizedLang ? `${slug}.${normalizedLang}` : slug;
 
   try {
     const { metadata } = await getPost(slugWithLang);
@@ -59,8 +70,8 @@ export default async function Page({
 }: {
   params: Params;
 }) {
-  const langSuffix = lang === "en" ? "" : `.${lang}`;
-  const slugWithLang = `${slug}${langSuffix}`;
+  const normalizedLang = normalizeLang(lang);
+  const slugWithLang = normalizedLang ? `${slug}.${normalizedLang}` : slug;
 
   try {
     const { metadata, contents } = await getPost(slugWithLang);
