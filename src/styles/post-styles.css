@@ -80,7 +80,7 @@
         .comment {
             @apply text-foreground/40;
         }
-        .keyword, .boolean {
+        .keyword, .key, .boolean {
             @apply text-blue-400;
         }
         .string {
@@ -89,10 +89,10 @@
         .number {
             @apply text-pink-400;
         }
-        .function {
+        .function, .class-name, .macro {
             @apply text-orange-400;
         }
-        .tag {
+        .tag, .attribute {
             @apply text-blue-400;
         }
         .tag.attr-name {
