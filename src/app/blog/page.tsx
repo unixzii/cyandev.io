@@ -1,4 +1,4 @@
-import { PostMetadata, fetchPosts } from "@/server/post";
+import { fetchOrderedPosts } from "@/server/post";
 import { buildMetadata } from "@/utils";
 import { BlogIndex } from "./BlogIndex";
 
@@ -9,17 +9,8 @@ export const metadata = buildMetadata({
   ogImage: "https://cyandev.app/twitter-cards/common.png",
 });
 
-async function fetchOrderedPostMetadataList(): Promise<PostMetadata[]> {
-  const posts = await fetchPosts(true);
-
-  const postMetadataList = posts.map((post) => post.metadata);
-  postMetadataList.sort((a, b) => b.date - a.date);
-
-  return postMetadataList;
-}
-
 export default async function Page() {
-  const posts = await fetchOrderedPostMetadataList();
+  const posts = (await fetchOrderedPosts()).map((p) => p.metadata);
 
   return (
     <main>
