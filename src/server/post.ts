@@ -125,3 +125,10 @@ export async function fetchPosts<B extends boolean>(
 
   return posts as FetchPostsResult<B>[];
 }
+
+export async function fetchOrderedPosts(): Promise<Post[]> {
+  const posts = await fetchPosts(true);
+  posts.sort((a, b) => b.metadata.date - a.metadata.date);
+
+  return posts;
+}
