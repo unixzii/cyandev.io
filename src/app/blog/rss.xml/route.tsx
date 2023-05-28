@@ -4,7 +4,6 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
-
 import { fetchOrderedPosts } from "@/server/post";
 
 export const dynamic = "force-static";
@@ -42,5 +41,10 @@ export async function GET() {
     });
   }
 
-  return new NextResponse(feed.rss2());
+  return new NextResponse(feed.rss2(), {
+    headers: {
+      "Content-Disposition": 'inline; filename="rss.xml"',
+      "Content-Type": "application/xml",
+    },
+  });
 }
