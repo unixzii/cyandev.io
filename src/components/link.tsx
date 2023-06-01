@@ -6,7 +6,6 @@ import {
   MouseEvent,
   forwardRef,
   useEffect,
-  useRef,
   useTransition,
 } from "react";
 import { default as NextLink } from "next/link";
@@ -27,28 +26,27 @@ function isModifiedEvent(event: MouseEvent) {
   );
 }
 
-export type LinkProps = ComponentProps<typeof NextLink>;
+export type LinkProps = ComponentProps<"a">;
 
 export const Link = forwardRef(function Link(
   props: LinkProps,
   ref: ForwardedRef<HTMLAnchorElement>
 ) {
+  const { href, onClick, ...restProps } = props;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const memorizedPending = useRef(false);
   const globalLoadingIndicator = useGlobalLoadingIndicator();
 
   useEffect(() => {
-    memorizedPending.current = isPending;
     if (isPending) {
       globalLoadingIndicator.startLoading();
     }
     return () => {
-      if (memorizedPending.current) {
+      if (isPending) {
         globalLoadingIndicator.endLoading();
       }
     };
-  }, [isPending, memorizedPending, globalLoadingIndicator]);
+  }, [isPending, globalLoadingIndicator]);
 
   const navigate = (e: MouseEvent<HTMLAnchorElement>): boolean => {
     if (isModifiedEvent(e)) {
@@ -56,19 +54,26 @@ export const Link = forwardRef(function Link(
     }
 
     const url = e.currentTarget.href;
-    if (!isLocalURL(url)) {
-      return false;
-    }
-
     router.push(url);
     return true;
   };
 
+  if (!href || !isLocalURL(href)) {
+    return <a {...restProps} ref={ref} href={href} onClick={onClick} />;
+  }
+
   return (
     <NextLink
-      {...props}
+      {...restProps}
       ref={ref}
+      href={href}
       onClick={(e) => {
+        onClick?.(e);
+
+        if (e.defaultPrevented) {
+          return;
+        }
+
         let handled = false;
         startTransition(() => {
           handled = navigate(e);
