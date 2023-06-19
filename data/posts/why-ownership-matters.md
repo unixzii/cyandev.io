@@ -15,7 +15,7 @@ Before discussing ownership, let’s first talk about value types.
 
 Swift has two kinds of types: **reference types**, and **value types**.
 
-Reference types are reference-counted, heap-allocated objects. They have the reference semantics when passing between functions. And typically, they can manage their underlying resources with `init` and `deinit` methods. Whey you write code like this:
+Reference types are reference-counted, heap-allocated objects. They have the reference semantics when passing between functions. And typically, they can manage their underlying resources with `init` and `deinit` methods. When you write code like this:
 
 ```swift
 class Foo {
