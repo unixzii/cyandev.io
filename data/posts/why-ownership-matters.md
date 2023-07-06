@@ -15,7 +15,7 @@ Before discussing ownership, let’s first talk about value types.
 
 Swift has two kinds of types: **reference types**, and **value types**.
 
-Reference types are reference-counted, heap-allocated objects. They have the reference semantics when passing between functions. And typically, they can manage their underlying resources with `init` and `deinit` methods. When you write code like this:
+Reference types are reference-counted, heap-allocated objects. They have reference semantics when passed between functions. And typically, they can manage their underlying resources with `init` and `deinit` methods. When you write code like this:
 
 ```swift
 class Foo {
@@ -38,7 +38,7 @@ In C++, there is a concept called trivial class. A trivial class has trivial [co
 
 Before Swift 5.9, all value types are like trivial types. When they are copied, their memory bytes are simply copied to the new locations. But the difference is, additional value witness functions may be executed to maintain the lifetime of the reference-type members (this is not how trivial types defined in C++, but we don’t have control).
 
-Value types in Swift can’t implement RAII because they are trivial. And this is also what value types are designed for in Swift. Value types like `CGRect`, `Date`, and `Character` all represent values, not resources. And we don’t need to worry about how to release their underlying resources, because they just don’t allocate resources manually.
+Value types in Swift can’t implement RAII because they are trivial. And this is also how value types are designed in Swift. Value types like `CGRect`, `Date`, and `Character` all represent values, not resources. And we don’t need to worry about how to release their underlying resources, because they just don’t allocate resources manually.
 
 Reference-type members in value types are specially handled, and it’s also automatically done by compiler. Value type like `String` actually requires extra heap buffer to store its variable-length contents, and the buffer has to be a class (reference type) to be managed properly.
 
@@ -69,7 +69,7 @@ struct FileDescriptor {
 }
 ```
 
-The resource a file descriptor holds is just an integer. We definitely don’t want to use class just for automatic resource management. However, using struct means the resource can be leaked if we forget to call `close` method. Even worse, if the value is copied, we totally lose control of it:
+The resource a file descriptor holds is just an integer. We definitely don’t want to use class just for automatic resource management. However, using structs means the resource can be leaked if we forget to call `close` method. Even worse, if the value is copied, we totally lose control of it:
 
 ```swift
 let handleToFileA = try! FileDescriptor(filePath: "/path/to/a")
@@ -110,15 +110,15 @@ drop(another_handle_to_file_a);
 let _ = handle_to_file_a.is_terminal(); // error: borrow of moved value: `handle_to_file_a`
 ```
 
-Third, lifetimes are checked at compile-time. As the above code shows, it would be an error to use a moved value.
+Third, lifetimes are checked at compile-time. As the above code shows, using a moved value will result in an error.
 
 While all types are value types in Rust, they can still be divided into 3 categories:
 
-1. **“POD” type:** such type can be bit-wise copied, and they implement `Copy` trait. Instead of being moved, they are copied implicitly when assigned. Examples are `i32`, `Duration`, etc.
+1. **“POD” type:** such types can be bit-wise copied, and they implement `Copy` trait. Instead of being moved, they are copied implicitly when assigned. Examples are `i32`, `Duration`, etc.
 2. **Duplicatable type:** they implement `Clone` trait and can be cloned explicitly. After cloned, the new value may refer to the same thing or another different thing, depends on the semantics of the type. Examples are `String`, `Arc`, etc.
 3. **Exclusive type:** they can’t be copied, nor can it be cloned. Examples are `File`, `Box<T>` (where `T` is not `Clone`), etc.
 
-These can cover almost all the cases we may meet, and the soundness is guaranteed by compiler.
+These can cover almost all the cases we may meet, and the soundness is guaranteed by the compiler.
 
 Another good thing of Rust is that it uses move semantics by default. With some rare exceptions (such as self-referential types), move semantics don’t make mistakes. You can progressively adopt `Copy` and `Clone` when you find it’s safe to do so.
 
@@ -168,7 +168,7 @@ handleToFileA.write(...)
 handleToFileA.write(...)
 ```
 
-Actually you don’t need explicit `close` method, non-copyable types support the RAII technique. You can just release your resources in `deinit`:
+Actually you don’t need an explicit `close` method, as non-copyable types support the RAII technique. You can just release your resources in `deinit`:
 
 ```swift
 struct FileDescriptor: ~Copyable {
@@ -201,4 +201,4 @@ func appendSomething(to fd: borrowing FileDescriptor) {
 
 ## Closing up
 
-Ownership is a really great feature that enables us to write memory-safe code, while not introducing additional overheads. It’s a kind of zero-costing abstraction, which is very necessary for system programming. Although Swift doesn’t have mandatory adoption requirement of ownership, you should still be aware of it and take advantage of it as much as possible.
+Ownership is a really great feature that enables us to write memory-safe code, while not introducing additional overheads. It’s a kind of zero-cost abstraction, which is very necessary for system programming. Although Swift doesn’t have mandatory adoption requirement of ownership, you should still be aware of it and take advantage of it as much as possible.
