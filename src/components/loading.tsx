@@ -63,7 +63,7 @@ export function GlobalLoadingIndicator({ children }: PropsWithChildren) {
       {children}
       <div
         className={selectClass({
-          "absolute left-0 top-0 w-screen h-screen bg-background/60 transition-opacity":
+          "absolute inset-0 w-full h-full bg-background/60 transition-opacity":
             true,
           "duration-[2s]": isLoading,
           "opacity-0 pointer-events-none duration-300": !isLoading,
