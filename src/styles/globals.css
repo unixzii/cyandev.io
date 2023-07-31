@@ -9,6 +9,10 @@
   --background-rgb: 0, 0, 0;
 }
 
+html {
+  color-scheme: dark;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
