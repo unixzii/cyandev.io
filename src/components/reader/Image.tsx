@@ -59,7 +59,7 @@ export function Image(props: ImageProps) {
   const [width, height] = metadata.size;
 
   return (
-    <div className="relative border border-separator rounded-md overflow-hidden">
+    <div className="relative rounded-md overflow-hidden after:absolute after:inset-0 after:rounded-md after:inset-ring after:inset-ring-image-border">
       <BlurhashCanvas
         style={{
           display: "block",
