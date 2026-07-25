@@ -35,13 +35,14 @@ export const NavBar = (props: NavBarProps) => {
   return (
     <nav className="relative h-24">
       <LinkWrapper visible={!hideHome} direction="next">
-        <Link to="/">
+        <Link data-cuelume-release="release" to="/">
           <Logo />
         </Link>
       </LinkWrapper>
       <LinkWrapper visible={!!hideHome} direction="previous">
         <Link
           className="text-secondary hover:text-primary transition-colors duration-200"
+          data-cuelume-release="release"
           to="/page/about"
         >
           about

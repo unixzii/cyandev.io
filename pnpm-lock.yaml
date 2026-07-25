@@ -47,6 +47,9 @@ devDependencies:
   clsx:
     specifier: ^2.1.1
     version: 2.1.1
+  cuelume:
+    specifier: ^0.1.2
+    version: 0.1.2
   date-fns:
     specifier: ^4.1.0
     version: 4.1.0
@@ -2067,6 +2070,10 @@ packages:
 
   /csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+    dev: true
+
+  /cuelume@0.1.2:
+    resolution: {integrity: sha512-VxL0k9l1fyKGot3VKM+wm5Xd2K75fVeBHdNTrR1EHiqKRtD6S5Dxy/vY7hwl9gXp3QT/TIywFXUos77n39YZVQ==}
     dev: true
 
   /date-fns@4.1.0:

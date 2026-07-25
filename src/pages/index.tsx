@@ -17,6 +17,7 @@ function PostItem({ post }: { post: PostMetadata }) {
     <li className="flex flex-col gap-1 mb-8">
       <Link
         className="text-xl font-semibold underline decoration-transparent hover:decoration-primary transition-colors duration-200"
+        data-cuelume-release="release"
         to={`/post/${post.slug}`}
       >
         {post.title}

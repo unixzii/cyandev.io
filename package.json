@@ -28,6 +28,7 @@
     "@webgpu/types": "^0.1.67",
     "blurhash": "^2.0.5",
     "clsx": "^2.1.1",
+    "cuelume": "^0.1.2",
     "date-fns": "^4.1.0",
     "eslint": "^9.38.0",
     "feed": "^5.1.0",

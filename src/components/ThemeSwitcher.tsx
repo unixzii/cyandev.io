@@ -2,6 +2,7 @@ import { type MouseEventHandler, useSyncExternalStore } from "react";
 import clsx from "clsx";
 import { type IconType, Icon } from "@/components/Icon";
 import { type Theme, themeManager } from "@/theme";
+import * as cuelume from "cuelume";
 
 function ThemeRadioButton({
   active,
@@ -49,7 +50,11 @@ export function ThemeSwitcher() {
   );
 
   function changeTheme(theme: Theme) {
+    if (theme === themeManager.getTheme()) {
+      return;
+    }
     themeManager.setTheme(theme);
+    cuelume.play("tick");
   }
 
   return (
